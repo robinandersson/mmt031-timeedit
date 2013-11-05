@@ -6,17 +6,16 @@ This work is part of a project in the course [MMT031](https://www.student.chalme
 
 The project entailed the evaluation of an existing user interface (washing machine dashboard, webpage etc.) by heuristic/expert and empiric methods. In order to improve the user experience, problems with the interface would be identified from the gathered information and would then be considered when reworking the interface. The last step would then be to evaluate the new design.
 
-We choose to remake the web page dedicated for [booking study rooms at Chalmers](https://se.timeedit.net/web/chalmers/db1/b1/r.html?h=t&sid=1002&id=-1) (November 2013). `More details about the project will be filled in gradually as the work proceedes`.
+We choose to remake the web page dedicated for [booking study rooms at Chalmers](https://se.timeedit.net/web/chalmers/db1/b1/r.html?h=t&sid=1002&id=-1) (November 2013). More details about the project will be filled in gradually as the work proceedes.
 
-## Technologies:
+## Technologies
 
-- HTML 5
-- CSS 3
-- Javascript
-- Jquery
-    - Backbone
+- HTML5
+- CSS3
+- jQuery
+- Backbone
 
-## Contributors:
+## Contributors
 
 - [Robin Andersson](https://github.com/robinandersson)
 - [Johan Brook](https://github.com/johanbrook)
