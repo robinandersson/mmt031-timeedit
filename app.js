@@ -82,13 +82,54 @@ var RoomsView = Backbone.View.extend({
 		this.collection.seedOrFetch();
 	},
 
+	refresh: function(filter) {
+		var results = this.collection.where(filter);
+		this.collection.reset(results);
+	},
+
 	addOne: function(room) {
 		var view = new RoomView({model: room});
 		this.$el.append(view.render().el);
 	},
 
 	addAll: function() {
+		// Clear list before adding item views
+		this.$el.html("");
 		this.collection.each(this.addOne, this);
+	}
+});
+
+var ControlView = Backbone.View.extend({
+
+	events: {
+		"change input" : "refresh"
+	},
+
+	modelBindings: {
+		"input[type='search']" : "name"
+	},
+
+	initialize: function() {
+		this.setElement($("#controls"));
+
+		this.controls = this.$("input");
+		this.rooms = new RoomsView;
+		this.filter = {};
+
+		if(this.rooms.collection != null) {
+			var view = this;
+			$.each(this.modelBindings, function(selector, attribute) {
+				view.$(selector).on("change", function(evt){
+					var data = view.$(evt.target).val();
+					view.filter[attribute] = data;
+				});
+			});
+		}
+	},
+
+	refresh: function(evt) {
+		console.log(this.filter);
+		this.rooms.refresh(this.filter);
 	}
 });
 
@@ -99,7 +140,9 @@ var RoomsView = Backbone.View.extend({
 			console.log("Initializing app ...");
 			App.Collections.Rooms = Rooms;
 
-			new RoomsView;
+			App.Views = {
+				Controls: new ControlView
+			};
 		},
 
 		// Namespaces
