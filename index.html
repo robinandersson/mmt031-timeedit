@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>TimeEdit</title>
+		<script src="lib/jquery-min.js"></script>
+		<script src="lib/underscore-min.js"></script>
+		<script src="lib/backbone-min.js"></script>
+		<script src="lib/backbone.localStorage-min.js"></script>
+		<script src="app.js"></script>
+
+		<link rel="stylesheet" href="style.css" />
+	</head>
+
+	<body>
+		<header role="banner">
+			<h1>TimeEdit</h1>
+		</header>	
+
+		<section id="controls">
+			<label for="booking-date">Date</label>
+			<input id="booking-date" type="date" />
+			<label for="booking-time">Time</label>
+			<input id="booking-time" type="time">
+			<label for="booking-location">Lokal</label>
+			<input id="booking-location" type="search" placeholder="E.g. 3213" />
+		</section>
+		
+		<section>
+			<ul id="rooms" class="list"></ul>
+		</section>
+
+		<script type="text/html" id="room-template">
+			<h3 class="room-name"><%= name%> (<%= building%>)</h3>
+			<p><%= type%></p>
+			<p><a href="#" class="destroy">Remove</a></p>
+		</script>
+	</body>
+</html>
