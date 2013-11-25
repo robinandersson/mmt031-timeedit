@@ -15,6 +15,45 @@ Backbone.Model.prototype.toJSON = function() {
 };
 
 
+// Format dates
+
+Date.prototype.yyyymmdd = function() {         
+                      
+	var yyyy = this.getFullYear().toString();                                    
+	var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+	var dd  = this.getDate().toString();             
+	                  
+	return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+};
+
+/**
+ * Round off to closest five minute span (ceil).
+ *
+ * Ex. 	15:54 => 15:55
+ * 			15:51 => 15:55
+ * 			15:56 => 16.00
+ * 			
+ * @return A string on the format "HH:mm"
+ */
+Date.prototype.hhmm = function() {
+	var hours = this.getHours();
+	var minutes = this.getMinutes();
+	var interval = 5;
+
+	var minutes = Math.ceil((minutes+1) / interval) * interval;
+
+	if(minutes === 60) {
+		hours++;
+		minutes = "00";
+
+		if(hours >= 24) {
+			hours = "00";
+		}
+	}
+
+	return hours + ":" + minutes;
+};
+
 // "Abstract" base collection
 
 var BaseCollection = Backbone.Collection.extend({
@@ -103,9 +142,13 @@ var RoomView = Backbone.View.extend({
 	createBooking: function(evt) {
 		console.log("Creating booking");
 		
-		var booking = new Booking({room: this.model});
-		this.model.bookings.add(booking);
-		UserBookings.add(booking);
+		//var booking = new Booking({room: this.model});
+		GLOBAL_BOOKING.set({room: this.model});
+
+		this.model.bookings.add(GLOBAL_BOOKING);
+		UserBookings.add(GLOBAL_BOOKING);
+
+		GLOBAL_BOOKING.clear();
 
 		// Datum
 	},
@@ -178,7 +221,7 @@ var RoomsView = Backbone.View.extend({
 var ControlView = Backbone.View.extend({
 
 	events: {
-		"change input" : "refresh"
+		//"change input" : "refresh"
 	},
 
 	modelBindings: {
@@ -192,6 +235,7 @@ var ControlView = Backbone.View.extend({
 		this.rooms = new RoomsView;
 		this.filter = {};
 
+		this.updateInputs("now");
 		/*
 		if(this.rooms.collection != null) {
 			var view = this;
@@ -205,6 +249,32 @@ var ControlView = Backbone.View.extend({
 		*/
 	},
 
+	updateInputs: function(hash) {
+		/*
+			{
+				date: "2013-11-11",
+				start: "11:00",
+				end: "12:00"
+			}
+		 */
+		var dateObject = {};
+		
+		if(typeof hash === "string" && hash === "now") {
+			var now = new Date();
+			var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
+
+			dateObject = {
+				date: now.yyyymmdd(),
+				startTime: now.hhmm(),
+				endTime: nextHour + now.hhmm().substr(2)
+			};
+		}
+
+		this.$el.find("#booking-date").val(dateObject.date);
+		this.$el.find("#booking-start-time").val(dateObject.startTime);
+		this.$el.find("#booking-end-time").val(dateObject.endTime);
+	},
+
 	refresh: function(evt) {
 		this.rooms.refresh(this.filter);
 	}
@@ -215,13 +285,14 @@ var ControlView = Backbone.View.extend({
 	exports.App = {
 		start: function() {
 			console.log("Initializing app ...");
-			App.Collections.Rooms = Rooms;
-			App.Collections.Bookings = UserBookings;
-			App.Views.UserBookings = new UserBookingsView;
-
-			(new BookingCollection).seedOrFetch();
+			
+			App.Collections = {
+				Rooms: Rooms,
+				Bookings: UserBookings
+			};
 
 			App.Views = {
+				UserBookings: new UserBookingsView,
 				Controls: new ControlView
 			};
 		},
