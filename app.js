@@ -1,8 +1,28 @@
+//
+// MAIN APP
+// 
+
+// Use recursive toJSON for nested models and collections
+
+Backbone.Model.prototype.toJSON = function() {
+  var json = _.clone(this.attributes);
+  for(var attr in json) {
+    if((json[attr] instanceof Backbone.Model) || (json[attr] instanceof Backbone.Collection)) {
+      json[attr] = json[attr].toJSON();   
+    }
+  }
+  return json;
+};
+
+
 // "Abstract" base collection
 
 var BaseCollection = Backbone.Collection.extend({
 
 	seed: function() {
+		// Don't try to seed if no source (url or file) is specified
+		if(!this.url) return;
+
 		console.log("Seeding from "+this.url+" into '"+this.localStorage.name+"' store ...");
 		var collection = this;
 
@@ -27,25 +47,43 @@ var BaseCollection = Backbone.Collection.extend({
 });
 
 
-var Room = Backbone.Model.extend({
+var Booking = Backbone.Model.extend({
+	room: null
+});
 
+var BookingCollection = BaseCollection.extend({
+	url: null,
+	model: Booking,
+	localStorage: new Backbone.LocalStorage("Bookings")
+});
+
+var Room = Backbone.Model.extend({
+	bookings: new BookingCollection
+});
+
+var UserBookingCollection = BaseCollection.extend({
+	url: null,
+	model: Booking,
+	localStorage: new Backbone.LocalStorage("UserBookings")
 });
 
 var RoomCollection = BaseCollection.extend({
 	// Here, the local seed file
 	url: "/rooms.json",
 	model: Room,
-	// Create local store
 	localStorage: new Backbone.LocalStorage("Rooms")
 });
 
 var Rooms = new RoomCollection;
+var UserBookings = new UserBookingCollection;
+
+var GLOBAL_BOOKING = new Booking;
 
 var RoomView = Backbone.View.extend({
 	tagName: "li",
 
 	events: {
-		"click a.destroy" : "clear"
+		"click .create-booking" : "createBooking"
 	},
 
 	initialize: function() {
@@ -62,9 +100,47 @@ var RoomView = Backbone.View.extend({
 		return this;
 	},
 
+	createBooking: function(evt) {
+		console.log("Creating booking");
+		
+		var booking = new Booking({room: this.model});
+		this.model.bookings.add(booking);
+		UserBookings.add(booking);
+
+		// Datum
+	},
+
 	clear: function(evt) {
 		evt.preventDefault();
 		this.model.destroy();
+	}
+});
+
+var UserBookingsView = Backbone.View.extend({
+	collection: UserBookings,
+	
+	initialize: function() {
+		this.setElement($("#user-bookings"));
+
+		this.listenTo(this.collection, "add", this.addOne);
+	},
+
+	addOne: function(booking) {
+		var view = new UserBookingView({model: booking});
+		this.$el.append(view.render().el);
+	},
+});
+
+var UserBookingView = Backbone.View.extend({
+	tagName: "li",
+
+	render: function() {
+		this.template = _.template($("#booking-template").html());
+
+		console.log(this.model.toJSON());
+
+		this.$el.html(this.template(this.model.toJSON()));
+		return this;
 	}
 });
 
@@ -116,6 +192,7 @@ var ControlView = Backbone.View.extend({
 		this.rooms = new RoomsView;
 		this.filter = {};
 
+		/*
 		if(this.rooms.collection != null) {
 			var view = this;
 			$.each(this.modelBindings, function(selector, attribute) {
@@ -125,10 +202,10 @@ var ControlView = Backbone.View.extend({
 				});
 			});
 		}
+		*/
 	},
 
 	refresh: function(evt) {
-		console.log(this.filter);
 		this.rooms.refresh(this.filter);
 	}
 });
@@ -139,6 +216,10 @@ var ControlView = Backbone.View.extend({
 		start: function() {
 			console.log("Initializing app ...");
 			App.Collections.Rooms = Rooms;
+			App.Collections.Bookings = UserBookings;
+			App.Views.UserBookings = new UserBookingsView;
+
+			(new BookingCollection).seedOrFetch();
 
 			App.Views = {
 				Controls: new ControlView
