@@ -55,22 +55,6 @@ Date.prototype.hhmm = function() {
 };
 
 
-// Random utils
-
-var Utils = {
-	generateNextDateSpan: function() {
-		var now = new Date();
-		var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
-
-		return {
-			date: now.yyyymmdd(),
-			startTime: now.hhmm(),
-			endTime: nextHour + now.hhmm().substr(2)
-		};
-	}
-};
-
-
 // "Abstract" base collection
 
 var BaseCollection = Backbone.Collection.extend({
@@ -133,8 +117,6 @@ var RoomCollection = BaseCollection.extend({
 var Rooms = new RoomCollection;
 var UserBookings = new UserBookingCollection;
 
-var GLOBAL_BOOKING = new Booking;
-
 var RoomView = Backbone.View.extend({
 	tagName: "li",
 
@@ -159,15 +141,13 @@ var RoomView = Backbone.View.extend({
 	createBooking: function(evt) {
 		console.log("Creating booking");
 		
-		//var booking = new Booking({room: this.model});
-		GLOBAL_BOOKING.set({room: this.model});
+		App.GLOBAL_BOOKING.set({room: this.model});
 
-		this.model.bookings.add(GLOBAL_BOOKING);
-		UserBookings.add(GLOBAL_BOOKING);
+		this.model.bookings.add(App.GLOBAL_BOOKING);
+		UserBookings.add(App.GLOBAL_BOOKING);
 
-		GLOBAL_BOOKING.clear();
-
-		// Datum
+		// Cleanup
+		App.GLOBAL_BOOKING = App.Utils.createBooking();
 	},
 
 	clear: function(evt) {
@@ -279,7 +259,7 @@ var ControlView = Backbone.View.extend({
 		// Copy GLOBAL_BOOKING's date attributes to date input fields
 		if(typeof hash === "string" && hash === "now") {
 			$.each(['date', 'startTime', 'endTime'], function(i, prop) {
-				dateObject[prop] = GLOBAL_BOOKING.get(prop);
+				dateObject[prop] = App.GLOBAL_BOOKING.get(prop);
 			});
 		}
 
@@ -300,7 +280,7 @@ var ControlView = Backbone.View.extend({
 			console.log("Initializing app ...");
 
 			// Set current date/time span on global booking model
-			GLOBAL_BOOKING.set(Utils.generateNextDateSpan());
+			App.GLOBAL_BOOKING = App.Utils.createBooking();
 			
 			App.Collections = {
 				Rooms: Rooms,
@@ -311,6 +291,25 @@ var ControlView = Backbone.View.extend({
 				UserBookings: new UserBookingsView,
 				Controls: new ControlView
 			};
+		},
+
+		Utils: {
+			/*
+				Generate a new booking from today's date and time
+			 */
+			createBooking: function(){
+				return new Booking(App.Utils.generateNextDateSpan());
+			},
+			generateNextDateSpan: function() {
+				var now = new Date();
+				var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
+
+				return {
+					date: now.yyyymmdd(),
+					startTime: now.hhmm(),
+					endTime: nextHour + now.hhmm().substr(2)
+				};
+			}
 		},
 
 		// Namespaces
