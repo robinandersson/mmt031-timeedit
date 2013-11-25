@@ -54,6 +54,23 @@ Date.prototype.hhmm = function() {
 	return hours + ":" + minutes;
 };
 
+
+// Random utils
+
+var Utils = {
+	generateNextDateSpan: function() {
+		var now = new Date();
+		var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
+
+		return {
+			date: now.yyyymmdd(),
+			startTime: now.hhmm(),
+			endTime: nextHour + now.hhmm().substr(2)
+		};
+	}
+};
+
+
 // "Abstract" base collection
 
 var BaseCollection = Backbone.Collection.extend({
@@ -259,15 +276,11 @@ var ControlView = Backbone.View.extend({
 		 */
 		var dateObject = {};
 		
+		// Copy GLOBAL_BOOKING's date attributes to date input fields
 		if(typeof hash === "string" && hash === "now") {
-			var now = new Date();
-			var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
-
-			dateObject = {
-				date: now.yyyymmdd(),
-				startTime: now.hhmm(),
-				endTime: nextHour + now.hhmm().substr(2)
-			};
+			$.each(['date', 'startTime', 'endTime'], function(i, prop) {
+				dateObject[prop] = GLOBAL_BOOKING.get(prop);
+			});
 		}
 
 		this.$el.find("#booking-date").val(dateObject.date);
@@ -285,6 +298,9 @@ var ControlView = Backbone.View.extend({
 	exports.App = {
 		start: function() {
 			console.log("Initializing app ...");
+
+			// Set current date/time span on global booking model
+			GLOBAL_BOOKING.set(Utils.generateNextDateSpan());
 			
 			App.Collections = {
 				Rooms: Rooms,
