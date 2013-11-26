@@ -2,6 +2,49 @@
 // MAIN APP
 // 
 
+(function($, exports) {
+
+	exports.App = {
+		start: function() {
+			console.log("Initializing app ...");
+
+			// Set current date/time span on global booking model
+			App.GLOBAL_BOOKING = App.Utils.createBooking();
+
+			App.Views = {
+				UserBookings: new UserBookingsView,
+				Controls: new ControlView
+			};
+		},
+
+		Utils: {
+			/*
+				Generate a new booking from today's date and time
+			 */
+			createBooking: function(){
+				return new Booking(App.Utils.generateNextDateSpan());
+			},
+			generateNextDateSpan: function() {
+				var now = new Date();
+				var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
+
+				return {
+					date: now.yyyymmdd(),
+					startTime: now.hhmm(),
+					endTime: nextHour + now.hhmm().substr(2)
+				};
+			}
+		},
+
+		// Namespaces
+
+		Views: {},
+		Models: {},
+		Collections: {}
+	};
+
+})(jQuery, window);
+
 // Use recursive toJSON for nested models and collections
 
 Backbone.Model.prototype.toJSON = function() {
@@ -296,54 +339,6 @@ var ControlView = Backbone.View.extend({
 		this.rooms.refresh(this.filter);
 	}
 });
-
-(function($, exports) {
-
-	exports.App = {
-		start: function() {
-			console.log("Initializing app ...");
-
-			// Set current date/time span on global booking model
-			App.GLOBAL_BOOKING = App.Utils.createBooking();
-			
-			App.Collections = {
-				Rooms: Rooms,
-				UserBookings: UserBookings
-			};
-
-			App.Views = {
-				UserBookings: new UserBookingsView,
-				Controls: new ControlView
-			};
-		},
-
-		Utils: {
-			/*
-				Generate a new booking from today's date and time
-			 */
-			createBooking: function(){
-				return new Booking(App.Utils.generateNextDateSpan());
-			},
-			generateNextDateSpan: function() {
-				var now = new Date();
-				var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
-
-				return {
-					date: now.yyyymmdd(),
-					startTime: now.hhmm(),
-					endTime: nextHour + now.hhmm().substr(2)
-				};
-			}
-		},
-
-		// Namespaces
-
-		Views: {},
-		Models: {},
-		Collections: {}
-	};
-
-})(jQuery, window);
 
 $(function() {
 	App.start();
