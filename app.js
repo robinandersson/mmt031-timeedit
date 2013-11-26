@@ -196,7 +196,7 @@ var RoomView = Backbone.View.extend({
 
 		if(App.GLOBAL_BOOKING.isValid()) {
 			console.log("Creating booking");
-			
+
 			this.model.bookings.add(App.GLOBAL_BOOKING);
 			UserBookings.add(App.GLOBAL_BOOKING);
 			App.GLOBAL_BOOKING.save();

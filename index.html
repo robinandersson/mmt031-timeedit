@@ -8,6 +8,7 @@
 		<script src="lib/backbone-min.js"></script>
 		<script src="lib/backbone.localStorage-min.js"></script>
 		<script src="app.js"></script>
+		<script src="ui.js"></script>
 
 		<link rel="stylesheet" href="style.css" />
 	</head>
@@ -23,9 +24,9 @@
 			<label for="booking-date">Datum</label>
 			<input id="booking-date" type="date" />
 			<label for="booking-start-time">Starttid</label>
-			<input id="booking-start-time" type="time">
+			<input id="booking-start-time" data-time="start" type="time">
 			<label for="booking-end-time">Sluttid</label>
-			<input id="booking-end-time" type="time">
+			<input id="booking-end-time" data-time="end" type="time">
 		</section>
 		
 		<section>
