@@ -92,7 +92,6 @@ var Booking = Backbone.Model.extend({
 });
 
 var BookingCollection = BaseCollection.extend({
-	url: null,
 	model: Booking,
 	localStorage: new Backbone.LocalStorage("Bookings")
 });
@@ -102,7 +101,6 @@ var Room = Backbone.Model.extend({
 });
 
 var UserBookingCollection = BaseCollection.extend({
-	url: null,
 	model: Booking,
 	localStorage: new Backbone.LocalStorage("UserBookings")
 });
@@ -146,6 +144,8 @@ var RoomView = Backbone.View.extend({
 		this.model.bookings.add(App.GLOBAL_BOOKING);
 		UserBookings.add(App.GLOBAL_BOOKING);
 
+		App.GLOBAL_BOOKING.save();
+
 		// Cleanup
 		App.GLOBAL_BOOKING = App.Utils.createBooking();
 	},
@@ -162,13 +162,22 @@ var UserBookingsView = Backbone.View.extend({
 	initialize: function() {
 		this.setElement($("#user-bookings"));
 
+		this.listenTo(this.collection, "reset", this.addAll);
 		this.listenTo(this.collection, "add", this.addOne);
+
+		this.collection.fetch();
+	},
+
+	addAll: function() {
+		// Clear list before adding item views
+		this.$el.html("");
+		this.collection.each(this.addOne, this);
 	},
 
 	addOne: function(booking) {
 		var view = new UserBookingView({model: booking});
 		this.$el.append(view.render().el);
-	},
+	}
 });
 
 var UserBookingView = Backbone.View.extend({
@@ -176,8 +185,6 @@ var UserBookingView = Backbone.View.extend({
 
 	render: function() {
 		this.template = _.template($("#booking-template").html());
-
-		console.log(this.model.toJSON());
 
 		this.$el.html(this.template(this.model.toJSON()));
 		return this;
@@ -284,7 +291,7 @@ var ControlView = Backbone.View.extend({
 			
 			App.Collections = {
 				Rooms: Rooms,
-				Bookings: UserBookings
+				UserBookings: UserBookings
 			};
 
 			App.Views = {
