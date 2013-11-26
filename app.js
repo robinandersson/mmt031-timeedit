@@ -11,6 +11,10 @@
 			// Set current date/time span on global booking model
 			App.GLOBAL_BOOKING = App.Utils.createBooking();
 
+			App.GLOBAL_BOOKING.on("invalid", function(model, error) {
+				console.error(error);
+			});
+
 			App.Views = {
 				UserBookings: new UserBookingsView,
 				Controls: new ControlView
@@ -131,7 +135,15 @@ var BaseCollection = Backbone.Collection.extend({
 
 
 var Booking = Backbone.Model.extend({
-	room: null
+	validate: function(attrs, options) {
+		if(attrs.startTime > attrs.endTime) {
+			return "Bokningens starttid kan inte ligga efter dess sluttid";
+		}
+
+		if(attrs.room === undefined) {
+			return "Du måste lägga till ett rum till din bokning";
+		}
+	}
 });
 
 var BookingCollection = BaseCollection.extend({
@@ -180,14 +192,15 @@ var RoomView = Backbone.View.extend({
 	},
 
 	createBooking: function(evt) {
-		console.log("Creating booking");
-		
 		App.GLOBAL_BOOKING.set({room: this.model});
 
-		this.model.bookings.add(App.GLOBAL_BOOKING);
-		UserBookings.add(App.GLOBAL_BOOKING);
-
-		App.GLOBAL_BOOKING.save();
+		if(App.GLOBAL_BOOKING.isValid()) {
+			console.log("Creating booking");
+			
+			this.model.bookings.add(App.GLOBAL_BOOKING);
+			UserBookings.add(App.GLOBAL_BOOKING);
+			App.GLOBAL_BOOKING.save();
+		}
 
 		// Cleanup
 		App.GLOBAL_BOOKING = App.Utils.createBooking();
