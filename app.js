@@ -175,20 +175,37 @@ var UserBookingsView = Backbone.View.extend({
 	},
 
 	addOne: function(booking) {
-		var view = new UserBookingView({model: booking});
+		var view = new BookingView({model: booking});
 		this.$el.append(view.render().el);
 	}
 });
 
-var UserBookingView = Backbone.View.extend({
+var BookingView = Backbone.View.extend({
 	tagName: "li",
+
+	events: {
+		"click .destroy": "removeBooking"
+	},
+
+	initialize: function() {
+		this.listenTo(this.model, "destroy", this.remove);
+	},
+
+	removeBooking: function(evt) {
+		evt.preventDefault();
+		if(confirm("Vill du verkligen avboka '"+this.model.get("room").name+"'?")) {
+			this.model.destroy();
+		}
+	},
 
 	render: function() {
 		this.template = _.template($("#booking-template").html());
 
 		this.$el.html(this.template(this.model.toJSON()));
 		return this;
-	}
+	},
+
+
 });
 
 var RoomsView = Backbone.View.extend({

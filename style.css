@@ -21,3 +21,8 @@ label[for] {
 	list-style: none;
 	padding: 0;
 }
+
+.destroy {
+	color: red;
+	font-size: .9em;
+}
