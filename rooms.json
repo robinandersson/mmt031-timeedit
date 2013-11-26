@@ -8,5 +8,10 @@
 		"name": "Idegr10",
 		"building": "Idéläran",
 		"type": "Grupprum + Datorer"
+	},
+	{
+		"name": "VA310",
+		"building": "Väg och Vatten",
+		"type": "Grupprum"
 	}
 ]

@@ -21,3 +21,21 @@ label[for] {
 	list-style: none;
 	padding: 0;
 }
+
+/*
+	The style for the timeboxes
+*/
+
+.time-display{
+	width: 46%;
+	position: relative;
+	border: 1px solid;
+	height: 40px;
+}
+
+.timebox{
+	position: absolute;
+	top: 0;
+	height: 40px;
+	background-color: grey;
+}

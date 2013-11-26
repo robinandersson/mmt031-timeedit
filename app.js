@@ -157,3 +157,28 @@ var ControlView = Backbone.View.extend({
 $(function() {
 	App.start();
 });
+
+// Visualization of time when looking at available rooms
+
+$(document).ready(function() {
+	// $('.time-display').css('background-color', 'red');
+	$('.time-display').html('00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 00');
+
+	add_booked_time(1, 4);
+	add_booked_time(5, 7);
+	add_booked_time(14, 18);
+	add_booked_time(23, 24);
+
+	function add_booked_time(start, end
+		// , room_class
+		) {
+		percentage = 100/24;
+		timespan = end*percentage-start*percentage;
+
+		$('.room-name').parent().children('.time-display').append('<div class="timebox '+start+' '+end+'"></div>');
+		$('.timebox.'+start+'.'+end).css({
+			width: timespan+'%',
+			'margin-left': start*percentage+'%'
+		});
+	};
+});
