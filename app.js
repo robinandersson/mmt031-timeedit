@@ -285,11 +285,15 @@ var RoomsView = Backbone.View.extend({
 var ControlView = Backbone.View.extend({
 
 	events: {
-		//"change input" : "refresh"
+		"change input" : "refresh",
+		"change input[type='date'],input[type='time']" : "setDateTimes"
 	},
 
 	modelBindings: {
-		"input[type='search']" : "name"
+		"input[type='search']" : "name",
+		"#booking-date" : "date",
+		"#booking-start-time" : "startTime",
+		"#booking-end-time" : "endTime"
 	},
 
 	initialize: function() {
@@ -311,6 +315,11 @@ var ControlView = Backbone.View.extend({
 			});
 		}
 		*/
+	},
+
+	setDateTimes: function(evt) {
+		var prop = this.modelBindings["#"+evt.currentTarget.id];
+		App.GLOBAL_BOOKING.set(prop, $(evt.currentTarget).val());
 	},
 
 	updateInputs: function(hash) {
@@ -336,7 +345,8 @@ var ControlView = Backbone.View.extend({
 	},
 
 	refresh: function(evt) {
-		this.rooms.refresh(this.filter);
+		//this.rooms.refresh(this.filter);
+		
 	}
 });
 
