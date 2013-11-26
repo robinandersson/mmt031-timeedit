@@ -8,7 +8,6 @@ $.fn.incrementDates = function(other) {
 	}
 
 	function getDateFromTime(time) {
-
 		var date = new Date(),
 				time = time.split(":");
 		date.setHours(time[0]);
@@ -61,16 +60,16 @@ $.fn.incrementDates = function(other) {
 					date2 = getDateFromTime($other.val());
 
 			if(date1 >= date2) {
+
 				if(isBefore) {
 					date2 = incrementHourInterval(date2);
 				}
 				else {
 					date2 = decrementHourInterval(date2);
 				}
-			}
 
-			$other.val(formatTime(date2));
-			
+				$other.val(formatTime(date2));
+			}
 		});
 	});
 };
