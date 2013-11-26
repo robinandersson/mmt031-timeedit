@@ -5,6 +5,13 @@
 (function($, exports) {
 
 	exports.App = {
+
+		createUserBooking: function(collection, model) {
+			collection.add(model);
+			UserBookings.add(model);
+			model.save();
+		},
+
 		start: function() {
 			console.log("Initializing app ...");
 
@@ -37,6 +44,16 @@
 					startTime: now.hhmm(),
 					endTime: nextHour + now.hhmm().substr(2)
 				};
+			},
+
+			dateFromTime: function(dateString, time) {
+				var date = new Date(dateString),
+						time = time.split(":");
+
+				date.setHours(time[0]);
+				date.setMinutes(time[1]);
+
+				return date;
 			}
 		},
 
@@ -135,6 +152,7 @@ var BaseCollection = Backbone.Collection.extend({
 
 
 var Booking = Backbone.Model.extend({
+
 	validate: function(attrs, options) {
 		if(attrs.startTime > attrs.endTime) {
 			return "Bokningens starttid kan inte ligga efter dess sluttid";
@@ -152,7 +170,21 @@ var BookingCollection = BaseCollection.extend({
 });
 
 var Room = Backbone.Model.extend({
-	bookings: new BookingCollection
+	bookings: new BookingCollection,
+
+	isBookedRightNow: function() {
+		var now = new Date;
+		return this.bookings.filter(function(b){
+			var startDate = App.Utils.dateFromTime(b.get("date"), b.get("startTime"));
+			var endDate = App.Utils.dateFromTime(b.get("date"), b.get("endTime"));
+			
+			return startDate < now && now < endDate;
+		}).length > 0;
+	},
+
+	isBookedDuringTimespan: function(date1, date2) {
+
+	}
 });
 
 var UserBookingCollection = BaseCollection.extend({
@@ -196,14 +228,13 @@ var RoomView = Backbone.View.extend({
 
 		if(App.GLOBAL_BOOKING.isValid()) {
 			console.log("Creating booking");
-
-			this.model.bookings.add(App.GLOBAL_BOOKING);
-			UserBookings.add(App.GLOBAL_BOOKING);
-			App.GLOBAL_BOOKING.save();
+			App.createUserBooking(this.model.bookings, App.GLOBAL_BOOKING);
 		}
-
 		// Cleanup
 		App.GLOBAL_BOOKING = App.Utils.createBooking();
+
+		// Re-render item view
+		this.render();
 	},
 
 	clear: function(evt) {
