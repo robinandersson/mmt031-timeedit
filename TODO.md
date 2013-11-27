@@ -8,3 +8,4 @@
 	- Related: A Room, Timeslot
 - User should be able to cancel a Booking
 - User should be able to edit a Booking
+- User should be able to have an overview of a room's availability during a day

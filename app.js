@@ -161,18 +161,66 @@ $(function() {
 // Visualization of time when looking at available rooms
 
 $(document).ready(function() {
-	// $('.time-display').css('background-color', 'red');
-	$('.time-display').html('00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 00');
+	var $td = $('.time-display');
+	// Testing: Adds some text to display what hour each section of the time-display represents
+	// $td.html('00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 00');
+	
+	// Adds 'hourly' lines for every time-display
+	position_interval = 100/24;
+	for (var i = 1; i < 24; i++) {
+		$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%');
+	};
 
-	add_booked_time(1, 4);
-	add_booked_time(5, 7);
-	add_booked_time(14, 18);
-	add_booked_time(23, 24);
+	// Testing: Adding some booked times for preview.
+	add_booked_time(1*60+22, 4*60);
+	add_booked_time(5*60+22, 7*60);
+	add_booked_time(14*60+30, 18*60);
+	add_booked_time(23*60+1, 24*60);
 
+	// Adds the posting of the mouseposition any time you hover a time display element
+	
+	var t = false;
+	var currentMousePosition = {x: -1, y: -1};
+	$td.mouseover(function(event) {
+		t = setInterval(function() {
+			currentMousePosition.x = event.pageX;
+			currentMousePosition.y = event.pageY;
+			console.log(currentMousePosition);
+		}, 100);
+		
+	});
+	$td.mouseout(function() {
+		clearInterval(t);
+		t = false;
+	});
+
+	// Adds draggable segments in the time display that represents the selected timespan
+	$('<div class = "segment" />').appendTo('.time-display').addClass('segment-left').css({
+		width: '1.5%',
+		'border': '2px black',
+		'border-style': 'dashed dashed dashed none',
+		position: 'absolute',
+		top: '0%',
+		height: '94%',
+		'margin-left': 100/24 * 19 + '%'
+	});
+	$('<div class = "segment" />').appendTo('.time-display').addClass('segment-right').css({
+		width: '1.5%',
+		'border': '2px black',
+		'border-style': 'dashed none dashed dashed',
+		position: 'absolute',
+		top: '0%',
+		height: '94%',
+		'margin-left': 100/24 * 21 + '%'
+	});
+
+	/*
+		This adds one booked timeslot for a start time (minutes) and an end time, for a room's time display.
+	*/
 	function add_booked_time(start, end
 		// , room_class
 		) {
-		percentage = 100/24;
+		percentage = 100/(60*24);
 		timespan = end*percentage-start*percentage;
 
 		$('.room-name').parent().children('.time-display').append('<div class="timebox '+start+' '+end+'"></div>');

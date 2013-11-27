@@ -26,16 +26,27 @@ label[for] {
 	The style for the timeboxes
 */
 
-.time-display{
+.time-display {
 	width: 46%;
 	position: relative;
 	border: 1px solid;
-	height: 40px;
+	height: 5em;
 }
 
-.timebox{
+.time-display .timebox{
 	position: absolute;
 	top: 0;
-	height: 40px;
-	background-color: grey;
+	height: 100%;
+	/*background: repeating-linear-gradient(45deg, transparent, transparent 10px, #8b0 10px, #8b0 20px);*/
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQIW2NkQID/jFD2fyDNCOKAGSBBADZSAwNOQHx1AAAAAElFTkSuQmCC) repeat;
+	z-index: 0;
+}
+
+.time-display .line{
+	border-left: 1px dotted darkgrey;
+	width: 0px;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	'z-index': 5000;
 }
