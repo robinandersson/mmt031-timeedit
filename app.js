@@ -16,9 +16,9 @@
 			console.log("Initializing app ...");
 
 			// Set current date/time span on global booking model
-			App.GLOBAL_BOOKING = App.Utils.createBooking();
+			var booking = App.GLOBAL_BOOKING = App.Utils.createBooking();
 
-			App.GLOBAL_BOOKING.on("invalid", function(model, error) {
+			booking.on("invalid", function(model, error) {
 				console.error(error);
 			});
 

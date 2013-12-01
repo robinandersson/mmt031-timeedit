@@ -46,6 +46,15 @@ App.Models.Booking = App.Models.BaseModel.extend({
 			return "Bokningens starttid kan inte ligga efter dess sluttid";
 		}
 
+		if(attrs.room instanceof Backbone.Model) {
+			var date1 = App.Utils.dateFromTime(attrs.date, attrs.startTime);
+			var date2 = App.Utils.dateFromTime(attrs.date, attrs.endTime);
+			
+			if(attrs.room.isBookedDuringTimespan(date1, date2)) {
+				return "Rum '"+ attrs.room.get("name") +"' är redan bokat under denna tid";
+			}
+		}
+
 		if(attrs.room === undefined) {
 			return "Du måste lägga till ett rum till din bokning";
 		}
@@ -69,6 +78,11 @@ App.Models.Room = App.Models.BaseModel.extend({
 	},
 
 	isBookedDuringTimespan: function(date1, date2) {
-
+		return this.bookings.filter(function(b){
+			var startDate = App.Utils.dateFromTime(b.get("date"), b.get("startTime"));
+			var endDate = App.Utils.dateFromTime(b.get("date"), b.get("endTime"));
+			
+			return (startDate > date1 && startDate < date2) || (date1 > startDate && date1 < endDate);
+		}).length > 0;
 	}
 });
