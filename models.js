@@ -56,6 +56,8 @@ App.Models.Booking = App.Models.BaseModel.extend({
 App.Models.Room = App.Models.BaseModel.extend({
 	bookings: new App.Collections.BookingCollection,
 
+	computed: ['isBookedRightNow'],
+
 	isBookedRightNow: function() {
 		var now = new Date;
 		return this.bookings.filter(function(b){

@@ -45,7 +45,7 @@ var RoomView = Backbone.View.extend({
 });
 
 var UserBookingsView = Backbone.View.extend({
-	collection: new App.Collections.UserBookingCollection,
+	collection: UserBookings,
 	
 	initialize: function() {
 		this.setElement($("#user-bookings"));

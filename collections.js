@@ -44,6 +44,8 @@
 	localStorage: new Backbone.LocalStorage("UserBookings")
 });
 
+ var UserBookings = new App.Collections.UserBookingCollection;
+
  App.Collections.RoomCollection = BaseCollection.extend({
 	// Here, the local seed file
 	url: "/rooms.json",
