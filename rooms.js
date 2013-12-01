@@ -52,6 +52,8 @@ App.Collections.RoomCollection = BaseCollection.extend({
 	}
 });
 
+var Rooms = new App.Collections.RoomCollection;
+
 App.Models.Room = App.Models.BaseModel.extend({
 
  	computed: ['isBookedRightNow'],
@@ -123,7 +125,7 @@ var RoomView = Backbone.View.extend({
 
  var RoomsView = Backbone.View.extend({
 
- 	collection: new App.Collections.RoomCollection,
+ 	collection: Rooms,
 
  	initialize: function() {
  		this.setElement($("#rooms"));

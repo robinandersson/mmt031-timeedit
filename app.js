@@ -27,6 +27,17 @@
 			};
 		},
 
+		/*
+			Reset the app data (rooms and bookings localstorage)
+		 */
+		reset: function() {
+			UserBookings.localStorage._clear();
+			Rooms.localStorage._clear();
+
+			UserBookings.reset();
+			Rooms.reset();
+		},
+
 		Utils: {
 			/*
 				Generate a new booking from today's date and time

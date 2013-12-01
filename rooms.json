@@ -1,6 +1,31 @@
 [
 	{
+		"name": "3205",
+		"building": "EDIT-huset",
+		"type": "Grupprum"
+	},
+	{
+		"name": "3207",
+		"building": "EDIT-huset",
+		"type": "Grupprum"
+	},
+	{
+		"name": "3210",
+		"building": "EDIT-huset",
+		"type": "Grupprum"
+	},
+	{
 		"name": "3213",
+		"building": "EDIT-huset",
+		"type": "Grupprum"
+	},
+	{
+		"name": "4207",
+		"building": "EDIT-huset",
+		"type": "Grupprum"
+	},
+	{
+		"name": "4205",
 		"building": "EDIT-huset",
 		"type": "Grupprum"
 	},

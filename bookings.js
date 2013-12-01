@@ -57,7 +57,7 @@ var UserBookingsView = Backbone.View.extend({
 
 	addOne: function(booking) {
 		var view = new BookingView({model: booking});
-		this.$el.append(view.render().el);
+		this.$el.append(view.render().$el.addClass("highlight"));
 	}
 });
 

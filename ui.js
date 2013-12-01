@@ -121,4 +121,13 @@ $(function() {
 	});*/
 	$("#booking-start-time").incrementDates("#booking-end-time");
 
+	$("#rooms").delegate(".room-expand", "click", function(){
+		$(this).nextAll(".room-additional").slideToggle({
+			duration: 100,
+			start: function() {
+				$(this).parents("li").toggleClass("expanded");
+			}
+		});
+	});
+
 });
