@@ -27,7 +27,10 @@ App.Models.Booking = App.Models.BaseModel.extend({
 
 App.Collections.UserBookingCollection = BaseCollection.extend({
 	model: App.Models.Booking,
-	localStorage: new Backbone.LocalStorage("UserBookings")
+	localStorage: new Backbone.LocalStorage("UserBookings"),
+	comparator: function(booking1, booking2) {
+		return (booking1.date < booking2.date) ? -1 : 1; 
+	}
 });
 
 var UserBookings = new App.Collections.UserBookingCollection;

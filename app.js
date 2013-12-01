@@ -9,6 +9,7 @@
 		createUserBooking: function(collection, model) {
 			var m = collection.create(model);
 			UserBookings.add(m);
+			UserBookings.sort();
 		},
 
 		start: function() {

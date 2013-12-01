@@ -8,7 +8,8 @@ App.Collections.RoomCollection = BaseCollection.extend({
 	url: "/rooms.json",
 	model: App.Models.Room,
 	localStorage: new Backbone.LocalStorage("Rooms"),
-
+	comparator: "name",
+	
 	conditions: {
 		matchName: function(filter, model) {
 			return model.get("name").search(new RegExp(filter.name, "i")) >= 0;
