@@ -81,7 +81,7 @@ $.fn.listSearch = function(options) {
 	};
 
 	var settings = $.extend({}, defaults, options);
-	
+
 	return this.each(function() {
 		var items = $(settings.list).find("li");
 
@@ -114,11 +114,11 @@ $.fn.listSearch = function(options) {
 };
 
 $(function() {
-
+/*
 	$("#booking-location").listSearch({
 		list: "#rooms",
 		fields: ['.room-name']
-	});
+	});*/
 	$("#booking-start-time").incrementDates("#booking-end-time");
 
 });

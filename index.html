@@ -8,8 +8,9 @@
 		<script src="lib/backbone.js"></script>
 		<script src="lib/backbone.localStorage.js"></script>
 		<script src="app.js"></script>
-		<script src="collections.js"></script>
-		<script src="models.js"></script>
+		<script src="support.js"></script>
+		<script src="bookings.js"></script>
+		<script src="rooms.js"></script>
 		<script src="views.js"></script>
 		<script src="ui.js"></script>
 
@@ -55,6 +56,12 @@
 			<p>
 				<button class="create-booking">Boka</button>
 			</p>
+		</script>
+
+		<script>
+			$(function() {
+				App.start();
+			});
 		</script>
 	</body>
 </html>
