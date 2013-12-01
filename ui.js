@@ -74,8 +74,51 @@ $.fn.incrementDates = function(other) {
 	});
 };
 
+$.fn.listSearch = function(options) {
+	var defaults = {
+		list: "#list",
+		fields: []
+	};
+
+	var settings = $.extend({}, defaults, options);
+	
+	return this.each(function() {
+		var items = $(settings.list).find("li");
+
+		$(this).bind("keyup", function(evt){
+			var filter = $(this).val();
+
+			// If 'Esc'
+			if(evt.keyCode === 27){
+				items.show();
+				$(this).val("").trigger("blur");
+				return;
+			}
+
+			items.each(function(){
+				var el = $(this),
+						text = (settings.fields.length > 0) ? el.find(settings.fields.join(",")).text() 
+							: el.text();
+
+				var action = (text.search(new RegExp(filter, "i")) >= 0) ? "show" : "hide";
+				el[action]();
+			});
+
+		})
+		.bind("blur search", function(){
+			if($(this).val() == ""){
+				items.show();
+			}
+		});
+	});
+};
+
 $(function() {
 
+	$("#booking-location").listSearch({
+		list: "#rooms",
+		fields: ['.room-name']
+	});
 	$("#booking-start-time").incrementDates("#booking-end-time");
 
 });
