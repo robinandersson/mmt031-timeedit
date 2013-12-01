@@ -3,7 +3,43 @@
 --------------------------
  */
 
-App.Models.Booking = Backbone.Model.extend({
+App.Models.BaseModel = Backbone.Model.extend({
+	initialize: function(){
+	    this.on('change', function(){
+	      var i, changedAttributes = this.changedAttributes() || [];
+	      _.each(this.attributes, function(value, key){
+	        if( _.isFunction(value) && _.isArray(value.attributes) ) {
+	          for(i in value.attributes) {
+	            if ( _.has(changedAttributes, value.attributes[i]) ) {
+	              this.trigger("change:"+key);
+	              return ;
+	            }
+	          }
+	        }
+	      }, this);
+	    }, this);
+	  },
+
+	  get: function(attr) {
+	  	return ( _.isFunction(this[attr]) ) ? this[attr].call(this) : 
+	  		Backbone.Model.prototype.get.call(this, attr);
+	  },
+
+	  toJSON: function() {
+	  	var json = Backbone.Model.prototype.toJSON.apply(this, arguments),
+	  		model = this;
+
+	  	if(!_.isUndefined(this.computed)) {
+	  		_.each(this.computed, function(func) {
+	  			json[func] = model.get(func);
+	  		});
+	  	}
+	  	
+	  	return json;
+	  }
+});
+
+App.Models.Booking = App.Models.BaseModel.extend({
 
 	validate: function(attrs, options) {
 		if(attrs.startTime > attrs.endTime) {
@@ -17,7 +53,7 @@ App.Models.Booking = Backbone.Model.extend({
 });
 
 
-App.Models.Room = Backbone.Model.extend({
+App.Models.Room = App.Models.BaseModel.extend({
 	bookings: new App.Collections.BookingCollection,
 
 	isBookedRightNow: function() {
