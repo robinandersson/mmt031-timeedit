@@ -166,9 +166,13 @@ $(document).ready(function() {
 	// $td.html('00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 00');
 	
 	// Adds 'hourly' lines for every time-display
-	position_interval = 100/24;
-	for (var i = 1; i < 24; i++) {
-		$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%');
+	position_interval = 100/48;
+	for (var i = 1; i < 48; i++) {
+		if (i%2 > 0) {
+			$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%').hide();
+		} else {
+			$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%');
+		}
 	};
 
 	// Testing: Adding some booked times for preview.
@@ -178,41 +182,82 @@ $(document).ready(function() {
 	add_booked_time(23*60+1, 24*60);
 
 	// Adds the posting of the mouseposition any time you hover a time display element
-	
 	var t = false;
 	var currentMousePosition = {x: -1, y: -1};
-	$td.mouseover(function(event) {
-		t = setInterval(function() {
-			currentMousePosition.x = event.pageX;
-			currentMousePosition.y = event.pageY;
-			console.log(currentMousePosition);
-		}, 100);
+	// $td.mouseover(function(event) {
+	// 	t = setInterval(function() {
+	// 		currentMousePosition.x = event.pageX;
+	// 		currentMousePosition.y = event.pageY;
+	// 		console.log(currentMousePosition);
+	// 	}, 100);
 		
-	});
-	$td.mouseout(function() {
-		clearInterval(t);
-		t = false;
-	});
+	// });
+	// $td.mouseout(function() {
+	// 	clearInterval(t);
+	// 	t = false;
+	// });
 
 	// Adds draggable segments in the time display that represents the selected timespan
+	var selected_time = {start: 19*60, end: 22*60};
+	var percentage_per_minute = 100/(24*60);
+	$('<div class="time-segment" />').appendTo('.time-display').css({
+		width: (selected_time.end - selected_time.start) * percentage_per_minute +'%',
+		left: percentage_per_minute * selected_time.start + '%'
+	});
+	$('.time-segment').draggable({
+		axis: 'x',
+		containment: 'parent',
+		snap: '.line, .segment',
+		snapMode: 'both',
+		snapTolerance: '7',
+		stop: function(event, ui) {
+			// console.log(this);
+			console.log($(this).css('width'));
+			console.log($(this).parent().css('width'));
+			console.log($(this).)
+		}
+	}).resizable({
+		containment: 'parent',
+		handles: 'e, w',
+		minWidth: '100%'
+	});
+
+	
+	/*
+		//This shit is old, when used lines instead of a box to display time
 	$('<div class = "segment" />').appendTo('.time-display').addClass('segment-left').css({
-		width: '1.5%',
+		width: '0.5%',
 		'border': '2px black',
 		'border-style': 'dashed dashed dashed none',
 		position: 'absolute',
 		top: '0%',
 		height: '94%',
-		'margin-left': 100/24 * 19 + '%'
+		'left': 100/24 * 19 + '%'
 	});
 	$('<div class = "segment" />').appendTo('.time-display').addClass('segment-right').css({
-		width: '1.5%',
+		width: '0.5%',
 		'border': '2px black',
 		'border-style': 'dashed none dashed dashed',
 		position: 'absolute',
 		top: '0%',
 		height: '94%',
-		'margin-left': 100/24 * 21 + '%'
+		'left': 100/24 * 21 + '%'
 	});
+	var segment_positions = {'segment-left': {x: 'false', y: 'false'}, 'segment-right': {x: 'false', y: 'false'}};
+	$('.segment').draggable({
+		axis: 'x',
+		containment: 'parent',
+		snap: '.line, .segment',
+		snapMode: 'inner',
+		start: function(event, ui) {
+			console.log(event.target);
+		},
+		drag: function(event, ui) {
+			// if (event.target.)
+		}
+	});
+	$('.segment-right').draggable('option', 'snapMode', 'outer');*/
+
 
 	/*
 		This adds one booked timeslot for a start time (minutes) and an end time, for a room's time display.

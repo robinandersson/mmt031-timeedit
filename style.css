@@ -50,3 +50,12 @@ label[for] {
 	height: 100%;
 	'z-index': 5000;
 }
+
+.time-segment {
+	border: none, 1px dotted;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	background: grey;
+	'z-index': 6000;
+}
