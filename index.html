@@ -62,15 +62,16 @@
 		</script>
 
 		<script type="text/html" id="room-template">
-			<h3 class="room-name room-expand"><%= name%></h3>
+			<h3 class="room-name room-expand"><span><%= name%></span></h3>
+			
+			<ul class="horizontal-list room-details">
+				<li title="Byggnad"><%= building %></li>
+				<li title="Typ av rum/utrustning"><%= type %></li>
+			</ul>
 
 			<div class="room-additional" hidden>
-				<ul class="horizontal-list room-details tags">
-					<li><%= building %></li>
-					<li><%= type %></li>
-				</ul>
-				<p>
-					<button class="create-booking">Boka</button>
+				<p class="right">
+					<button class="create-booking accent">Boka</button>
 				</p>
 			</div>
 		</script>
