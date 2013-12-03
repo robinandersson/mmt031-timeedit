@@ -104,8 +104,17 @@ var RoomView = Backbone.View.extend({
  		return this;
  	},
 
+ 	createBookingData: function(roomView) {
+ 		return {
+ 			room: roomView.model,
+ 			comment: roomView.$el.find(".booking-comment").val(),
+ 			description: roomView.$el.find(".booking-description").val()
+ 		};
+ 	},
+
  	createBooking: function(evt) {
- 		App.GLOBAL_BOOKING.set({room: this.model});
+
+ 		App.GLOBAL_BOOKING.set(this.createBookingData(this));
 
  		if(App.GLOBAL_BOOKING.isValid()) {
  			console.log("Creating booking");

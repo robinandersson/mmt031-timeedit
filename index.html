@@ -62,6 +62,12 @@
 			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
 
 			<div class="booking-extra" hidden>
+				<dl class="list">
+					<dt>Kommentar</dt>
+					<dd><%= comment%></dd>
+					<dt>Egen text</dt>
+					<dd><%= description%></dd>
+				</dl>
 				<p hidden class="center detail confirmation-text">Vill du verkligen ta bort bokningen?</p>
 				<p class="action-links">
 					<span class="update">Ändra</span><span class="destroy">Avboka</span>
@@ -82,7 +88,12 @@
 			</ul>
 
 			<div class="room-additional" hidden>
-				<p class="right">
+				<div class="align-left">
+					<input type="text" size="25" class="booking-comment" placeholder="Kommentar (frivilligt)" />
+					<input type="text" size="25" class="booking-description" placeholder="Egen text (frivilligt)" />
+				</div>
+
+				<p class="align-right">
 					<button class="create-booking accent">Boka</button>
 				</p>
 			</div>
