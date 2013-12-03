@@ -113,39 +113,62 @@ $.fn.listSearch = function(options) {
 	});
 };
 
-$.fn.toggleExtra = function(options) {
+$.fn.toggleExtra = function(options, extra) {
 	var defaults = {
 		trigger: ".expand",
 		extra: ".extra",
 		expandedClass: "expanded",
 		duration: 100,
-		child: true
+		child: true,
+		start: function(el) {
+			el.parents("li").toggleClass(settings.expandedClass);
+		}
 	},
 
-	settings = $.extend({}, defaults, options);
+	settings = {};
+
+	if(typeof options !== "string") {
+		settings = $.extend({}, defaults, options);
+	}
+	else {
+		settings = defaults;
+	}
+
+	var method = (settings.child) ? "children" : "nextAll";
+
+	var methods = {
+		expand: function(el, expandElement) {
+			el[method](expandElement).slideDown({
+				duration: settings.duration,
+				start: settings.start(el)
+			});
+		},
+
+		toggle: function(el) {
+			el[method](settings.extra).slideToggle({
+				duration: settings.duration,
+				start: settings.start(el)
+			});
+		}
+	};
 
 	return this.each(function() {
-		var method = (settings.child) ? "children" : "nextAll";
+		var $this = $(this);
 
-		$(this).delegate(settings.trigger, "click", function(evt){
-			evt.preventDefault();
-
-			$(this)[method](settings.extra).slideToggle({
-				duration: settings.duration,
-				start: function() {
-					$(this).parents("li").toggleClass(settings.expandedClass);
-				}
+		if(typeof options === "string" && extra !== undefined) {
+			methods.expand($this, extra);
+		}
+		else {
+			$this.delegate(settings.trigger, "click", function(evt){
+				evt.preventDefault();
+				methods.toggle($(this));
 			});
-		});
+		}
 	});
 };
 
 $(function() {
-/*
-	$("#booking-location").listSearch({
-		list: "#rooms",
-		fields: ['.room-name']
-	});*/
+
 	$("#booking-start-time").incrementDates("#booking-end-time");
 	
 	$("#rooms").toggleExtra({
@@ -155,7 +178,7 @@ $(function() {
 	});
 
 	$("#user-bookings").toggleExtra({
-		trigger: "li",
+		trigger: "li:not(.no-expand)",
 		extra: ".booking-extra"
 	});
 
