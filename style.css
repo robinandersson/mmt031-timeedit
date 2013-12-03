@@ -173,13 +173,13 @@ aside section:not(:last-child){
 }
 
 #user-bookings > li {
-	cursor: pointer;
 	padding: 4px 8px;
 	border-radius: 5px;
 	border: 1px solid transparent;
 }
 
-#user-bookings > li:hover {
+#user-bookings > li:not(.booking-edit):hover {
+	cursor: pointer;
 	border-color: #d2d2d2;
 }
 
@@ -356,7 +356,8 @@ dl.list dd {
 	width: 100%;
 }
 
-.action-links > span {
+.action-links span {
+	cursor: pointer;
 	background-color: #fff;
 }
 
@@ -376,7 +377,8 @@ dl.list dd {
 .action-links > span:last-child {
 	border-radius: 0 3px 3px 0;
 }
-.action-links > span:first-child {
+
+.action-links > span:first-child:not(.update) {
 	border-radius: 3px 0 0 3px;
 	border-right: 0;
 }
@@ -391,9 +393,23 @@ dl.list dd {
 	color: #fff;
 }
 
-.action-links .update {
+.action-links .edit {
 	border: 1px solid #1396ED;
 	color: #1396ED;
+}
+
+.action-links .update {
+	border: 1px solid #6DB056;
+	color: #6DB056;
+}
+
+.action-links .update:hover {
+	background-color: #6DB056;
+	color: #fff;
+}
+
+.booking-edit input[type="text"]{
+	font-size: 1em;
 }
 
 .action-links .confirmation {
@@ -412,9 +428,13 @@ dl.list dd {
 	background: none;
 }
 
-.action-links .update:hover {
+.action-links .edit:hover {
 	background-color: #1396ED;
 	color: #fff;
+}
+
+.action-links .update {
+	width: 100%;
 }
 
 .action-links .destroy-ok {

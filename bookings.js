@@ -59,8 +59,25 @@ var UserBookingsView = Backbone.View.extend({
 	},
 
 	addOne: function(booking) {
-		var view = new BookingView({model: booking});
+		var view = new BookingView({model: booking, parent: this});
+
 		this.$el.append(view.render().$el.addClass("highlight"));
+	},
+
+	_switchView: function(originalView, secondView) {
+		secondView.parent = this;
+		originalView.$el.replaceWith(secondView.render().el);
+		return secondView;
+	},
+
+	renderEdit: function(itemView) {
+		var editView = new BookingEditView({model: itemView.model});
+		return this._switchView(itemView, editView);
+	},
+
+	cancelEdit: function(editView) {
+		var bookingView = new BookingView({model: editView.model, parent: this});
+		return this._switchView(editView, bookingView);
 	}
 });
 
@@ -68,10 +85,12 @@ var BookingView = Backbone.View.extend({
 	tagName: "li",
 
 	events: {
-		"click .destroy": "showConfirmation"
+		"click .destroy": "showConfirmation",
+		"click .edit" : "edit"
 	},
 
-	initialize: function() {
+	initialize: function(args) {
+		this.parent = args.parent;
 		this.listenTo(this.model, "destroy", this.remove);
 	},
 
@@ -93,6 +112,10 @@ var BookingView = Backbone.View.extend({
 		$link.addClass("confirmation").html(confirmView.render().el);
 	},
 
+	edit: function(evt) {
+		this.parent.renderEdit(this);
+	},
+
 	render: function() {
 		this.template = _.template($("#booking-template").html());
 		this.$el.html(this.template(this.model.toJSON()));
@@ -100,6 +123,45 @@ var BookingView = Backbone.View.extend({
 	},
 
 
+});
+
+var BookingEditView = BookingView.extend({
+
+	className: "booking-edit no-expand",
+
+	events: {
+		"click .update" : "saveBooking",
+		"click .cancel" : "cancelBooking"
+	},
+
+	saveBooking: function() {
+		var view = this,
+		data = {
+			comment: this.$el.find(".booking-comment").val(),
+			description: this.$el.find(".booking-description").val()
+		};
+
+		// Bypass date validation since we're not changing the dates
+		this.model.save(data, {
+			validate: false,
+			success: function(model) {
+				console.log("Saved!", model.toJSON());
+				var newView = view.parent.cancelEdit(view);
+
+				newView.$el.addClass("highlight").toggleExtra("expand", ".booking-extra");
+			}
+		});
+	},
+
+	cancelBooking: function() {
+		this.parent.cancelEdit(this);
+	},
+
+	render: function() {
+		this.template = _.template($("#booking-edit-template").html());
+		this.$el.html(this.template(this.model.toJSON()));
+		return this;
+	}
 });
 
 var ConfirmationView = Backbone.View.extend({

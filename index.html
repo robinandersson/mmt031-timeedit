@@ -70,7 +70,26 @@
 				</dl>
 				<p hidden class="center detail confirmation-text">Vill du verkligen ta bort bokningen?</p>
 				<p class="action-links">
-					<span class="update">Ändra</span><span class="destroy">Avboka</span>
+					<span class="edit">Ändra</span><span class="destroy">Avboka</span>
+				</p>
+			</div>
+		</script>
+
+		<script type="text/html" id="booking-edit-template">
+			<h4><%= room.name %> <small>(<%= room.building %>)</small></h4>
+			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
+
+			<div class="booking-extra">
+				<dl class="list">
+					<dt><label>Kommentar</label></dt>
+					<dd><input type="text" class="booking-comment" value="<%= comment%>" placeholder="Kommentar (frivilligt)" /></dd>
+					<dt><label>Egen text</label></dt>
+					<dd><input type="text" class="booking-description" value="<%= description%>" placeholder="Egen text (frivilligt)" /></dd>
+				</dl>
+
+				<p class="action-links">
+					<span class="cancel">Avbryt</span>
+					<span class="update">Klar</span>
 				</p>
 			</div>
 		</script>
