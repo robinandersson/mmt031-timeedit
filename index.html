@@ -50,15 +50,34 @@
 			<aside role="complementary">
 				<section>
 					<h2>Mina bokningar</h2>
-					<ul id="user-bookings" class="list"></ul>
+					<ul id="user-bookings" class="list">
+						<li>
+							<h4>3205 <small>(EDIT)</small></h4>
+							<p><strong>Tid:</strong> <time>2013-11-02, 15.00-16.00</time></p>
+
+							<div class="booking-extra" hidden>
+
+								<p class="action-links">
+									<a href="#" class="update">Ändra</a>
+									<a href="#" class="destroy">Avboka</a>
+								</p>
+							</div>
+						</li>
+					</ul>
 				</section>
 			</aside>
 		</div>
 
 		<script type="text/html" id="booking-template">
-			<p><strong>Rum:</strong> <%= room.name %></p>
-			<p><strong>Tid:</strong> <%= date + ", "+startTime+"-"+endTime %></p>
-			<p><a href="#" class="destroy">Avboka</a></p>
+			<h4><%= room.name %> <small>(<%= room.building %>)</small></h4>
+			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
+
+			<div class="booking-extra" hidden>
+
+				<p class="action-links">
+					<a href="#" class="update">Ändra</a><a href="#" class="destroy">Avboka</a>
+				</p>
+			</div>
 		</script>
 
 		<script type="text/html" id="room-template">

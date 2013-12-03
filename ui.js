@@ -113,6 +113,31 @@ $.fn.listSearch = function(options) {
 	});
 };
 
+$.fn.toggleExtra = function(options) {
+	var defaults = {
+		trigger: ".expand",
+		extra: ".extra",
+		expandedClass: "expanded",
+		duration: 100,
+		child: true
+	},
+
+	settings = $.extend({}, defaults, options);
+
+	return this.each(function() {
+		var method = (settings.child) ? "children" : "nextAll";
+
+		$(this).delegate(settings.trigger, "click", function(){
+			$(this)[method](settings.extra).slideToggle({
+				duration: settings.duration,
+				start: function() {
+					$(this).parents("li").toggleClass(settings.expandedClass);
+				}
+			});
+		});
+	});
+};
+
 $(function() {
 /*
 	$("#booking-location").listSearch({
@@ -120,14 +145,16 @@ $(function() {
 		fields: ['.room-name']
 	});*/
 	$("#booking-start-time").incrementDates("#booking-end-time");
+	
+	$("#rooms").toggleExtra({
+		trigger: ".room-expand",
+		extra: ".room-additional",
+		child: false
+	});
 
-	$("#rooms").delegate(".room-expand", "click", function(){
-		$(this).nextAll(".room-additional").slideToggle({
-			duration: 100,
-			start: function() {
-				$(this).parents("li").toggleClass("expanded");
-			}
-		});
+	$("#user-bookings").toggleExtra({
+		trigger: "li",
+		extra: ".booking-extra"
 	});
 
 });
