@@ -68,26 +68,59 @@ var BookingView = Backbone.View.extend({
 	tagName: "li",
 
 	events: {
-		"click .destroy": "removeBooking"
+		"click .destroy": "showConfirmation"
 	},
 
 	initialize: function() {
 		this.listenTo(this.model, "destroy", this.remove);
 	},
 
-	removeBooking: function(evt) {
+	showConfirmation: function(evt) {
 		evt.preventDefault();
-		if(confirm("Vill du verkligen avboka '"+this.model.get("room").name+"'?")) {
-			this.model.destroy();
-		}
+		evt.stopPropagation();
+
+		var $link = $(evt.currentTarget),
+				confirmView = new ConfirmationView({model: this.model}),
+				originalContent = $link.html(),
+				view = this;
+
+		this.listenTo(confirmView, "cancel", function() {
+			view.$el.find(".update").show().end().find(".confirmation-text").hide();
+			$link.html(originalContent).removeClass("confirmation");
+		});
+
+		this.$el.find(".update").hide().end().find(".confirmation-text").show();
+		$link.addClass("confirmation").html(confirmView.render().el);
 	},
 
 	render: function() {
 		this.template = _.template($("#booking-template").html());
-
 		this.$el.html(this.template(this.model.toJSON()));
 		return this;
 	},
 
 
+});
+
+var ConfirmationView = Backbone.View.extend({
+
+	events: {
+		"click .destroy-ok" : "removeBooking",
+		"click .destroy-cancel" : "cancel"
+	},
+
+	removeBooking: function(evt) {
+		this.model.destroy();
+	},
+
+	cancel: function(evt) {
+		this.trigger("cancel");
+		this.remove();
+	},
+
+	render: function() {
+		this.template = _.template($("#booking-destroy-confirmation").html());
+		this.$el.html(this.template());
+		return this;
+	}
 });

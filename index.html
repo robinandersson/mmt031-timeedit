@@ -50,20 +50,7 @@
 			<aside role="complementary">
 				<section>
 					<h2>Mina bokningar</h2>
-					<ul id="user-bookings" class="list">
-						<li>
-							<h4>3205 <small>(EDIT)</small></h4>
-							<p><strong>Tid:</strong> <time>2013-11-02, 15.00-16.00</time></p>
-
-							<div class="booking-extra" hidden>
-
-								<p class="action-links">
-									<a href="#" class="update">Ändra</a>
-									<a href="#" class="destroy">Avboka</a>
-								</p>
-							</div>
-						</li>
-					</ul>
+					<ul id="user-bookings" class="list"></ul>
 				</section>
 			</aside>
 		</div>
@@ -73,11 +60,15 @@
 			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
 
 			<div class="booking-extra" hidden>
-
+				<p hidden class="center detail confirmation-text">Vill du verkligen ta bort bokningen?</p>
 				<p class="action-links">
-					<a href="#" class="update">Ändra</a><a href="#" class="destroy">Avboka</a>
+					<span class="update">Ändra</span><span class="destroy">Avboka</span>
 				</p>
 			</div>
+		</script>
+
+		<script type="text/html" id="booking-destroy-confirmation">
+			<span class="destroy-cancel">Nej</span><span class="destroy-ok">Ja</span>
 		</script>
 
 		<script type="text/html" id="room-template">

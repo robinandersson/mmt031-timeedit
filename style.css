@@ -318,27 +318,41 @@ label[for] {
 	}
 }
 
+.booking-extra {
+	margin-top: .5em;
+}
+
+.booking-extra .confirmation-text {
+	margin-bottom: .5em;
+}
+
 .action-links {
 	font-size: 1.1em;
-	margin-top: .5em;
 	display: table;
 	width: 100%;
 }
 
-.action-links a {
-	display: table-cell;
-	font-weight: bold;
-	text-align: center;
-	padding: .3em .5em;
-	width: 50%;
-	text-decoration: none;
+.action-links > span {
 	background-color: #fff;
 }
 
-.action-links a:last-child {
+.action-links > span,
+.action-links .confirmation span {
+	padding: .3em .5em;
+	width: 50%;
+}
+
+.action-links span {
+	display: table-cell;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+}
+
+.action-links > span:last-child {
 	border-radius: 0 3px 3px 0;
 }
-.action-links a:first-child {
+.action-links > span:first-child {
 	border-radius: 3px 0 0 3px;
 	border-right: 0;
 }
@@ -358,12 +372,44 @@ label[for] {
 	color: #1396ED;
 }
 
+.action-links .confirmation {
+	display: table;
+	width: 100%;
+	border-radius: 3px;
+	padding: 0;
+	border-color: transparent;
+}
+
+.action-links .confirmation > div {
+	display: table-row;
+}
+
+.action-links .confirmation:hover {
+	background: none;
+}
+
 .action-links .update:hover {
 	background-color: #1396ED;
 	color: #fff;
 }
 
+.action-links .destroy-ok {
+	background-color: #ED1313;
+	color: #fff;
+}
+
+.action-links .destroy-cancel {
+	background-color: #bbb;
+	color: #fff;
+}
+
 /* HELPERS */
+
+.detail {
+	color: #888;
+	font-size: .9em;
+	font-style: italic;
+}
 
 .right {
 	text-align: right;

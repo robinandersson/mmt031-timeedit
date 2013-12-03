@@ -127,7 +127,9 @@ $.fn.toggleExtra = function(options) {
 	return this.each(function() {
 		var method = (settings.child) ? "children" : "nextAll";
 
-		$(this).delegate(settings.trigger, "click", function(){
+		$(this).delegate(settings.trigger, "click", function(evt){
+			evt.preventDefault();
+
 			$(this)[method](settings.extra).slideToggle({
 				duration: settings.duration,
 				start: function() {
