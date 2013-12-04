@@ -169,6 +169,11 @@ $.fn.toggleExtra = function(options, extra) {
 
 $(function() {
 
+	// Disable past dates in the datepicker
+	$("#booking-date").attr("min", function() {
+		return (new Date).yyyymmdd();
+	});
+
 	$("#booking-start-time").incrementDates("#booking-end-time");
 	
 	$("#rooms").toggleExtra({
