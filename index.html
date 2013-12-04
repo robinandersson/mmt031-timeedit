@@ -67,6 +67,8 @@
 					<dd><%= comment%></dd>
 					<dt>Egen text</dt>
 					<dd><%= description%></dd>
+					<dt>Ändamål</dt>
+					<dd><%= purpose%></dd>
 				</dl>
 				<p hidden class="center detail confirmation-text">Vill du verkligen ta bort bokningen?</p>
 				<p class="action-links">
@@ -108,8 +110,14 @@
 
 			<div class="room-additional" hidden>
 				<div class="align-left">
-					<input type="text" size="25" class="booking-comment" placeholder="Kommentar (frivilligt)" autofocus />
-					<input type="text" size="25" class="booking-description" placeholder="Egen text (frivilligt)" />
+					<input type="text" size="22" class="booking-comment" placeholder="Kommentar (frivilligt)" autofocus />
+					<input type="text" size="22" class="booking-description" placeholder="Egen text (frivilligt)" />
+
+					<select class="booking-purpose" title="Ändamål">
+						<optgroup label="Ändamål">
+							<option value="misc">Övrigt</option>
+						</optgroup>
+					</select>
 				</div>
 
 				<p class="align-right">

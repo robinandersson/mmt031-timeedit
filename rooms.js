@@ -101,6 +101,10 @@ var RoomView = Backbone.View.extend({
 
  	render: function() {
  		this.$el.html(this.template(this.model.toJSON()));
+ 		var opts = this.$el.find(".booking-purpose option");
+ 		if(opts.length == 1) {
+ 			opts.parents("select").attr("disabled", true);
+ 		}
  		return this;
  	},
 
@@ -108,7 +112,8 @@ var RoomView = Backbone.View.extend({
  		return {
  			room: roomView.model,
  			comment: roomView.$el.find(".booking-comment").val(),
- 			description: roomView.$el.find(".booking-description").val()
+ 			description: roomView.$el.find(".booking-description").val(),
+ 			purpose: roomView.$el.find(".booking-purpose option:selected").text()
  		};
  	},
 
