@@ -51,7 +51,7 @@
 				<section>
 					<h2>Dina bokningar</h2>
 					<ul id="user-bookings" class="list">
-						<p class="detail">Inga bokningar</p>
+						<p class="no-content">Inga bokningar</p>
 					</ul>
 				</section>
 			</aside>
@@ -116,6 +116,10 @@
 					<button class="create-booking accent">Boka</button>
 				</p>
 			</div>
+		</script>
+
+		<script type="text/html" id="empty-list-template">
+			<p class="no-content">Inga <%= noun %> funna</p>
 		</script>
 
 		<script>

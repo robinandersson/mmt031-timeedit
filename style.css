@@ -148,6 +148,11 @@ h4 small {
 	overflow: hidden;
 }
 
+#rooms .no-content {
+	font-size: 1.4em;
+	text-align: center;
+}
+
 .tags li {
 	cursor: default;
 	display: inline-block;
@@ -448,6 +453,12 @@ dl.list dd {
 }
 
 /* HELPERS */
+
+.no-content {
+	color: #aaa;
+	font-size: 1em;
+	font-weight: 500;
+}
 
 .detail {
 	color: #888;

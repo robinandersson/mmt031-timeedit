@@ -12,6 +12,10 @@
 			UserBookings.sort();
 		},
 
+		getEmptyTemplate: function() {
+			return _.template($("#empty-list-template").html());
+		},
+
 		start: function() {
 			console.log("Initializing app ...");
 

@@ -152,16 +152,13 @@ var RoomView = Backbone.View.extend({
  	},
 
  	refresh: function(filter) {
- 		console.log("Filter", filter);
- 		var results = this.collection.search(filter);
- 		console.log(results);
- 		this.searchCollection = results;
+ 		this.searchCollection = this.collection.search(filter);
  		this.renderSearch();
  	},
 
  	renderSearch: function() {
  		this.$el.html("");
- 		this.searchCollection.each(this.addOne, this);
+ 		this.addAll(this.searchCollection);
  	},
 
  	addOne: function(room) {	
@@ -169,9 +166,16 @@ var RoomView = Backbone.View.extend({
  		this.$el.append(view.render().el);
  	},
 
- 	addAll: function() {
+ 	addAll: function(collection) {
  		// Clear list before adding item views
- 		this.$el.html("");
- 		this.collection.each(this.addOne, this);
+ 		
+ 		if(collection.isEmpty()) {
+ 			var template = App.getEmptyTemplate();
+ 			this.$el.html(template({noun: "rum"}));
+ 		}
+ 		else {
+ 			this.$el.html("");
+ 			collection.each(this.addOne, this);
+ 		}
  	}
  });
