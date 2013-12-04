@@ -167,6 +167,17 @@ $.fn.toggleExtra = function(options, extra) {
 	});
 };
 
+function updateInputs(dateHash) {
+	var dateObject = {};
+	if(typeof dateHash === "string" && dateHash === "now") {
+		dateObject = Utils.generateNextDateSpan();
+	}
+
+	$("#booking-date").val(dateObject.date);
+	$("#booking-start-time").val(dateObject.startTime);
+	$("#booking-end-time").val(dateObject.endTime);
+}
+
 $(function() {
 
 	// Disable past dates in the datepicker
@@ -175,6 +186,8 @@ $(function() {
 	});
 
 	$("#booking-start-time").incrementDates("#booking-end-time");
+
+	updateInputs("now");
 	
 	$("#rooms").toggleExtra({
 		trigger: ".room-expand",

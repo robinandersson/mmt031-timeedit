@@ -16,8 +16,8 @@ App.Collections.RoomCollection = BaseCollection.extend({
 		},
 
 		isAvailable: function(filter, model) {
-			var startDate = App.Utils.dateFromTime(filter.date, filter.startTime);
-			var endDate = App.Utils.dateFromTime(filter.date, filter.endTime);
+			var startDate = Utils.dateFromTime(filter.date, filter.startTime);
+			var endDate = Utils.dateFromTime(filter.date, filter.endTime);
 
 			return !model.isBookedDuringTimespan(startDate, endDate);
 		}
@@ -64,8 +64,8 @@ App.Models.Room = App.Models.BaseModel.extend({
  	isBookedRightNow: function() {
  		var now = new Date;
  		return this.bookings.filter(function(b){
- 			var startDate = App.Utils.dateFromTime(b.get("date"), b.get("startTime"));
- 			var endDate = App.Utils.dateFromTime(b.get("date"), b.get("endTime"));
+ 			var startDate = Utils.dateFromTime(b.get("date"), b.get("startTime"));
+ 			var endDate = Utils.dateFromTime(b.get("date"), b.get("endTime"));
  			
  			return startDate < now && now < endDate;
  		}).length > 0;
@@ -73,8 +73,8 @@ App.Models.Room = App.Models.BaseModel.extend({
 
  	isBookedDuringTimespan: function(date1, date2) {
  		return this.bookings.filter(function(b){
- 			var startDate = App.Utils.dateFromTime(b.get("date"), b.get("startTime"));
- 			var endDate = App.Utils.dateFromTime(b.get("date"), b.get("endTime"));
+ 			var startDate = Utils.dateFromTime(b.get("date"), b.get("startTime"));
+ 			var endDate = Utils.dateFromTime(b.get("date"), b.get("endTime"));
  			
  			return (date1 < startDate && startDate < date2) || (startDate < date1 && date1 < endDate);
  		}).length > 0;
@@ -124,7 +124,7 @@ var RoomView = Backbone.View.extend({
  			UserBookings.create(App.GLOBAL_BOOKING.clone());
 
  			// Cleanup
- 			App.GLOBAL_BOOKING = App.Utils.createBooking();
+ 			App.GLOBAL_BOOKING = App.createBooking();
  		}
 
  		// Re-render item view

@@ -69,6 +69,29 @@ App.Models.BaseModel = Backbone.Model.extend({
 	  }
 });
 
+Utils = {
+	generateNextDateSpan: function() {
+		var now = new Date();
+		var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
+
+		return {
+			date: now.yyyymmdd(),
+			startTime: now.hhmm(),
+			endTime: nextHour + now.hhmm().substr(2)
+		};
+	},
+
+	dateFromTime: function(dateString, time) {
+		var date = new Date(dateString),
+				time = time.split(":");
+
+		date.setHours(time[0]);
+		date.setMinutes(time[1]);
+
+		return date;
+	}
+};
+
 // Use recursive toJSON for nested models and collections
 
 Backbone.Model.prototype.toJSON = function() {
