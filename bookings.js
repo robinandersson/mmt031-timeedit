@@ -104,11 +104,11 @@ var BookingView = Backbone.View.extend({
 				view = this;
 
 		this.listenTo(confirmView, "cancel", function() {
-			view.$el.find(".update").show().end().find(".confirmation-text").hide();
+			view.$el.find(".edit").show().end().find(".confirmation-text").hide();
 			$link.html(originalContent).removeClass("confirmation");
 		});
 
-		this.$el.find(".update").hide().end().find(".confirmation-text").show();
+		this.$el.find(".edit").hide().end().find(".confirmation-text").show();
 		$link.addClass("confirmation").html(confirmView.render().el);
 	},
 
