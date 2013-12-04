@@ -294,6 +294,11 @@ input[type="time"]:focus {
 
 input[type="search"] {
 	border-radius: 2em;
+	background-color: #fcfcfc;
+}
+
+input[type="search"]:focus {
+	background-color: #fff;
 }
 
 label[for] {

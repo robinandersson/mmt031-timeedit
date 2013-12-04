@@ -6,10 +6,8 @@
 
 	exports.App = {
 
-		createUserBooking: function(collection, model) {
-			var m = collection.create(model);
-			UserBookings.add(m);
-			UserBookings.sort();
+		createUserBooking: function(model, collection) {
+			
 		},
 
 		getEmptyTemplate: function() {

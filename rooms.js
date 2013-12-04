@@ -33,14 +33,12 @@ App.Collections.RoomCollection = BaseCollection.extend({
 		Does fuzzy search for the `name` attribute.
 	 */
 	search: function(filter) {
-		console.log(filter);
 		var results = [],
 				collection = this;
 
 		_.each(this.models, function(model) {
 			var result = _.every(collection.conditions, function(func, name){
 				var r = func(filter, model);
-				console.log(model.get("name"), name, r);
 				return r;
 			});
 
@@ -78,7 +76,7 @@ App.Models.Room = App.Models.BaseModel.extend({
  			var startDate = App.Utils.dateFromTime(b.get("date"), b.get("startTime"));
  			var endDate = App.Utils.dateFromTime(b.get("date"), b.get("endTime"));
  			
- 			return (date1 <= startDate && startDate <= date2) || (startDate <= date1 && date1 <= endDate);
+ 			return (date1 < startDate && startDate < date2) || (startDate < date1 && date1 < endDate);
  		}).length > 0;
  	}
  });
@@ -122,11 +120,12 @@ var RoomView = Backbone.View.extend({
  		App.GLOBAL_BOOKING.set(this.createBookingData(this));
 
  		if(App.GLOBAL_BOOKING.isValid()) {
- 			console.log("Creating booking");
- 			App.createUserBooking(this.model.bookings, App.GLOBAL_BOOKING);
+ 			this.model.bookings.create(App.GLOBAL_BOOKING);
+ 			UserBookings.create(App.GLOBAL_BOOKING.clone());
+
+ 			// Cleanup
+ 			App.GLOBAL_BOOKING = App.Utils.createBooking();
  		}
- 		// Cleanup
- 		App.GLOBAL_BOOKING = App.Utils.createBooking();
 
  		// Re-render item view
  		this.render();
