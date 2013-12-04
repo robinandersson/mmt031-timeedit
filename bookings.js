@@ -154,7 +154,9 @@ var BookingEditView = BookingView.extend({
 	},
 
 	cancelBooking: function() {
-		this.parent.cancelEdit(this);
+		var view = this.parent.cancelEdit(this);
+		// Expand new view
+		view.$el.toggleExtra("expand", ".booking-extra");
 	},
 
 	render: function() {
