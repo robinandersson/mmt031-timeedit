@@ -70,14 +70,35 @@ App.Models.BaseModel = Backbone.Model.extend({
 });
 
 Utils = {
-	generateNextDateSpan: function() {
-		var now = new Date();
-		var nextHour = parseInt(now.hhmm().substr(0, 2)) + 1;
+
+	generateNextDateSpan: function(next) {
+		if(next === undefined) next = 1;
+		var now = new Date(),
+				nextHour = parseInt(now.hhmm().substr(0, 2)) + next;
+
+		if(nextHour == 24) {
+			nextHour = "00";
+		}
+
+		if(nextHour < 10) {
+			nextHour = "0"+nextHour;
+		}
+
+		var nextEndTime = parseInt(now.hhmm().substr(3));
+
+		if(nextEndTime === 60) {
+			nextHour++;
+			nextEndTime = "00";
+
+			if(nextHour === 24) {
+				nextHour = "00";
+			}
+		}
 
 		return {
 			date: now.yyyymmdd(),
 			startTime: now.hhmm(),
-			endTime: nextHour + now.hhmm().substr(2)
+			endTime: nextHour + ":" + nextEndTime
 		};
 	},
 
@@ -117,7 +138,8 @@ Date.prototype.yyyymmdd = function() {
 };
 
 /**
- * Round off to closest five minute span (ceil).
+ * Round off to closest five minute span (ceil) if
+ * @autoCorrect == true.
  *
  * Ex. 	15:54 => 15:55
  * 			15:51 => 15:55
@@ -125,20 +147,31 @@ Date.prototype.yyyymmdd = function() {
  * 			
  * @return A string on the format "HH:mm"
  */
-Date.prototype.hhmm = function() {
+Date.prototype.hhmm = function(autoCorrect) {
+	if(typeof autoCorrect === undefined) autoCorrect = true;
+
 	var hours = this.getHours();
 	var minutes = this.getMinutes();
 	var interval = 5;
 
-	var minutes = Math.ceil((minutes+1) / interval) * interval;
+	if(autoCorrect) {
+		minutes = Math.ceil((minutes+1) / interval) * interval;
 
-	if(minutes === 60) {
-		hours++;
-		minutes = "00";
+		if(minutes === 60) {
+			hours++;
+			minutes = "00";
 
-		if(hours >= 24) {
-			hours = "00";
+			if(hours === 24) {
+				hours = "00";
+			}
 		}
+	}
+
+	if(hours < 10) {
+		hours = "0"+hours;
+	}
+	if(minutes.toString().length === 1) {
+		minutes = minutes + "0";
 	}
 
 	return hours + ":" + minutes;
