@@ -8,15 +8,16 @@ App.Collections.RoomCollection = BaseCollection.extend({
 	url: "/rooms.json",
 	model: App.Models.Room,
 	localStorage: new Backbone.LocalStorage("Rooms"),
-
+	comparator: "name",
+	
 	conditions: {
 		matchName: function(filter, model) {
 			return model.get("name").search(new RegExp(filter.name, "i")) >= 0;
 		},
 
 		isAvailable: function(filter, model) {
-			var startDate = App.Utils.dateFromTime(filter.date, filter.startTime);
-			var endDate = App.Utils.dateFromTime(filter.date, filter.endTime);
+			var startDate = Utils.dateFromTime(filter.date, filter.startTime);
+			var endDate = Utils.dateFromTime(filter.date, filter.endTime);
 
 			return !model.isBookedDuringTimespan(startDate, endDate);
 		}
@@ -32,14 +33,12 @@ App.Collections.RoomCollection = BaseCollection.extend({
 		Does fuzzy search for the `name` attribute.
 	 */
 	search: function(filter) {
-		console.log(filter);
 		var results = [],
 				collection = this;
 
 		_.each(this.models, function(model) {
 			var result = _.every(collection.conditions, function(func, name){
 				var r = func(filter, model);
-				console.log(model.get("name"), name, r);
 				return r;
 			});
 
@@ -65,8 +64,8 @@ App.Models.Room = App.Models.BaseModel.extend({
  	isBookedRightNow: function() {
  		var now = new Date;
  		return this.bookings.filter(function(b){
- 			var startDate = App.Utils.dateFromTime(b.get("date"), b.get("startTime"));
- 			var endDate = App.Utils.dateFromTime(b.get("date"), b.get("endTime"));
+ 			var startDate = Utils.dateFromTime(b.get("date"), b.get("startTime"));
+ 			var endDate = Utils.dateFromTime(b.get("date"), b.get("endTime"));
  			
  			return startDate < now && now < endDate;
  		}).length > 0;
@@ -74,10 +73,10 @@ App.Models.Room = App.Models.BaseModel.extend({
 
  	isBookedDuringTimespan: function(date1, date2) {
  		return this.bookings.filter(function(b){
- 			var startDate = App.Utils.dateFromTime(b.get("date"), b.get("startTime"));
- 			var endDate = App.Utils.dateFromTime(b.get("date"), b.get("endTime"));
+ 			var startDate = Utils.dateFromTime(b.get("date"), b.get("startTime"));
+ 			var endDate = Utils.dateFromTime(b.get("date"), b.get("endTime"));
  			
- 			return (date1 <= startDate && startDate <= date2) || (startDate <= date1 && date1 <= endDate);
+ 			return (date1 < startDate && startDate < date2) || (startDate < date1 && date1 < endDate);
  		}).length > 0;
  	}
  });
@@ -100,18 +99,33 @@ var RoomView = Backbone.View.extend({
 
  	render: function() {
  		this.$el.html(this.template(this.model.toJSON()));
+ 		var opts = this.$el.find(".booking-purpose option");
+ 		if(opts.length == 1) {
+ 			opts.parents("select").attr("disabled", true);
+ 		}
  		return this;
  	},
 
+ 	createBookingData: function(roomView) {
+ 		return {
+ 			room: roomView.model,
+ 			comment: roomView.$el.find(".booking-comment").val(),
+ 			description: roomView.$el.find(".booking-description").val(),
+ 			purpose: roomView.$el.find(".booking-purpose option:selected").text()
+ 		};
+ 	},
+
  	createBooking: function(evt) {
- 		App.GLOBAL_BOOKING.set({room: this.model});
+
+ 		App.GLOBAL_BOOKING.set(this.createBookingData(this));
 
  		if(App.GLOBAL_BOOKING.isValid()) {
- 			console.log("Creating booking");
- 			App.createUserBooking(this.model.bookings, App.GLOBAL_BOOKING);
+ 			this.model.bookings.create(App.GLOBAL_BOOKING);
+ 			UserBookings.create(App.GLOBAL_BOOKING.clone());
+
+ 			// Cleanup
+ 			App.GLOBAL_BOOKING = App.createBooking();
  		}
- 		// Cleanup
- 		App.GLOBAL_BOOKING = App.Utils.createBooking();
 
  		// Re-render item view
  		this.render();
@@ -142,16 +156,13 @@ var RoomView = Backbone.View.extend({
  	},
 
  	refresh: function(filter) {
- 		console.log("Filter", filter);
- 		var results = this.collection.search(filter);
- 		console.log(results);
- 		this.searchCollection = results;
+ 		this.searchCollection = this.collection.search(filter);
  		this.renderSearch();
  	},
 
  	renderSearch: function() {
  		this.$el.html("");
- 		this.searchCollection.each(this.addOne, this);
+ 		this.addAll(this.searchCollection);
  	},
 
  	addOne: function(room) {	
@@ -159,9 +170,16 @@ var RoomView = Backbone.View.extend({
  		this.$el.append(view.render().el);
  	},
 
- 	addAll: function() {
+ 	addAll: function(collection) {
  		// Clear list before adding item views
- 		this.$el.html("");
- 		this.collection.each(this.addOne, this);
+ 		
+ 		if(collection.isEmpty()) {
+ 			var template = App.getEmptyTemplate();
+ 			this.$el.html(template({noun: "rum"}));
+ 		}
+ 		else {
+ 			this.$el.html("");
+ 			collection.each(this.addOne, this);
+ 		}
  	}
  });

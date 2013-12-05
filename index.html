@@ -36,11 +36,11 @@
 					</li>
 					<li>
 						<label for="booking-start-time" class="descriptive-help">Från</label>
-						<input id="booking-start-time" data-time="start" type="time">
+						<input id="booking-start-time" data-time="start" step="300" type="time">
 					</li>
 					<li>
 						<label for="booking-end-time" class="descriptive-help">Till</label>
-						<input id="booking-end-time" data-time="end" type="time">
+						<input id="booking-end-time" data-time="end" step="300" type="time">
 					</li>
 				</ul>
 			</section>
@@ -51,30 +51,85 @@
 
 			<aside role="complementary">
 				<section>
-					<h2>Mina bokningar</h2>
-					<ul id="user-bookings" class="list"></ul>
+					<h2>Dina bokningar</h2>
+					<ul id="user-bookings" class="list">
+						<p class="no-content">Inga bokningar</p>
+					</ul>
 				</section>
 			</aside>
 		</div>
 
 		<script type="text/html" id="booking-template">
-			<p><strong>Rum:</strong> <%= room.name %></p>
-			<p><strong>Tid:</strong> <%= date + ", "+startTime+"-"+endTime %></p>
-			<p><a href="#" class="destroy">Avboka</a></p>
+			<h4><%= room.name %> <small>(<%= room.building %>)</small></h4>
+			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
+
+			<div class="booking-extra" hidden>
+				<dl class="list">
+					<dt>Kommentar</dt>
+					<dd><%= comment%></dd>
+					<dt>Egen text</dt>
+					<dd><%= description%></dd>
+					<dt>Ändamål</dt>
+					<dd><%= purpose%></dd>
+				</dl>
+				<p hidden class="center detail confirmation-text">Vill du verkligen ta bort bokningen?</p>
+				<p class="action-links">
+					<span class="edit">Ändra</span><span class="destroy">Avboka</span>
+				</p>
+			</div>
+		</script>
+
+		<script type="text/html" id="booking-edit-template">
+			<h4><%= room.name %> <small>(<%= room.building %>)</small></h4>
+			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
+
+			<div class="booking-extra">
+				<dl class="list">
+					<dt><label>Kommentar</label></dt>
+					<dd><input type="text" class="booking-comment" value="<%= comment%>" placeholder="Kommentar (frivilligt)" autofocus /></dd>
+					<dt><label>Egen text</label></dt>
+					<dd><input type="text" class="booking-description" value="<%= description%>" placeholder="Egen text (frivilligt)" /></dd>
+				</dl>
+
+				<p class="action-links">
+					<span class="cancel">Avbryt</span>
+					<span class="update">Klar</span>
+				</p>
+			</div>
+		</script>
+
+		<script type="text/html" id="booking-destroy-confirmation">
+			<span class="destroy-cancel">Nej</span><span class="destroy-ok">Ja, avboka</span>
 		</script>
 
 		<script type="text/html" id="room-template">
-			<h3 class="room-name room-expand"><%= name%></h3>
+			<h3 class="room-name room-expand"><span><%= name%></span></h3>
+			
+			<ul class="horizontal-list room-details">
+				<li title="Byggnad"><%= building %></li>
+				<li title="Typ av rum/utrustning"><%= type %></li>
+			</ul>
 			<div class="room-additional" hidden>
-				<ul class="horizontal-list room-details tags">
-					<li><%= building %></li>
-					<li><%= type %></li>
-				</ul>
-				<p>
-					<button class="create-booking">Boka</button>
+				<div class="align-left">
+					<input type="text" size="22" class="booking-comment" placeholder="Kommentar (frivilligt)" autofocus />
+					<input type="text" size="22" class="booking-description" placeholder="Egen text (frivilligt)" />
+
+					<select class="booking-purpose" title="Ändamål">
+						<optgroup label="Ändamål">
+							<option value="misc">Övrigt</option>
+						</optgroup>
+					</select>
+				</div>
+
+				<p class="align-right">
+					<button class="create-booking accent">Boka</button>
 				</p>
 			</div>
 			<div class="time-display"></div>
+		</script>
+
+		<script type="text/html" id="empty-list-template">
+			<p class="no-content">Inga <%= noun %> funna</p>
 		</script>
 
 		<script>

@@ -53,11 +53,17 @@ $.fn.incrementDates = function(other) {
 
 		$this.add(other).on("change", function(evt) {
 			var $input = $(evt.currentTarget),
-					$other = $input.parent().find("input[type='time']").not(this),
+					$other = $input.parents("#controls").find("input[type='time']").not($input),
 					isBefore = $input.data("time") === "start" ? true : false;
 
 			var date1 = getDateFromTime($input.val()),
 					date2 = getDateFromTime($other.val());
+
+			//FIXME: known bug. If the start time is ex. 00:20 and end time is thus
+			// 01:20, and you *decrease* the hours in the start time to 23:20, the
+			// end time will incorrectly *increase* to 02:20. This is becase the date
+			// comparison below will give true, since the getDateFromTime() helper
+			// will set the same *day* on the timestamps. Thus is 00:20 *more* than 01:20.
 
 			if(date1 >= date2) {
 
@@ -68,7 +74,7 @@ $.fn.incrementDates = function(other) {
 					date2 = decrementHourInterval(date2);
 				}
 
-				$other.val(formatTime(date2));
+				$other.val(date2.hhmm(false));
 			}
 		});
 	});
@@ -113,21 +119,92 @@ $.fn.listSearch = function(options) {
 	});
 };
 
+$.fn.toggleExtra = function(options, extra) {
+	var defaults = {
+		trigger: ".expand",
+		extra: ".extra",
+		expandedClass: "expanded",
+		duration: 100,
+		child: true,
+		start: function(el) {
+			el.parents("li").toggleClass(settings.expandedClass);
+		}
+	},
+
+	settings = {};
+
+	if(typeof options !== "string") {
+		settings = $.extend({}, defaults, options);
+	}
+	else {
+		settings = defaults;
+	}
+
+	var method = (settings.child) ? "children" : "nextAll";
+
+	var methods = {
+		expand: function(el, expandElement) {
+			el[method](expandElement).slideDown({
+				duration: settings.duration,
+				start: settings.start(el)
+			});
+		},
+
+		toggle: function(el) {
+			el[method](settings.extra).slideToggle({
+				duration: settings.duration,
+				start: settings.start(el)
+			});
+		}
+	};
+
+	return this.each(function() {
+		var $this = $(this);
+
+		if(typeof options === "string" && extra !== undefined) {
+			methods.expand($this, extra);
+		}
+		else {
+			$this.delegate(settings.trigger, "click", function(evt){
+				evt.preventDefault();
+				methods.toggle($(this));
+			});
+		}
+	});
+};
+
+function updateInputs(dateHash) {
+	var dateObject = {};
+	if(typeof dateHash === "string" && dateHash === "now") {
+		dateObject = Utils.generateNextDateSpan();
+		console.log(dateObject);
+	}
+
+	$("#booking-date").val(dateObject.date);
+	$("#booking-start-time").val(dateObject.startTime);
+	$("#booking-end-time").val(dateObject.endTime);
+}
+
 $(function() {
-/*
-	$("#booking-location").listSearch({
-		list: "#rooms",
-		fields: ['.room-name']
-	});*/
+
+	// Disable past dates in the datepicker
+	$("#booking-date").attr("min", function() {
+		return (new Date).yyyymmdd();
+	});
+
 	$("#booking-start-time").incrementDates("#booking-end-time");
 
-	$("#rooms").delegate(".room-expand", "click", function(){
-		$(this).nextAll(".room-additional").slideToggle({
-			duration: 100,
-			start: function() {
-				$(this).parents("li").toggleClass("expanded");
-			}
-		});
+	updateInputs("now");
+	
+	$("#rooms").toggleExtra({
+		trigger: ".room-expand",
+		extra: ".room-additional",
+		child: false
+	});
+
+	$("#user-bookings").toggleExtra({
+		trigger: "li:not(.no-expand)",
+		extra: ".booking-extra"
 	});
 
 });

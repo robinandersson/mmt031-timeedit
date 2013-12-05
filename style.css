@@ -9,9 +9,19 @@
 
 body {
 	font: 14px/1.5 "Helvetica Neue", sans-serif;
-	margin: 2em 10%;
+	margin: 2em 15%;
 	color: #333;
 	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: #0084F7;
+	font-weight: 500;
+	position: relative;
+}
+
+a:active {
+	top: 1px;
 }
 
 [role="main"] {
@@ -24,12 +34,12 @@ main,
 }
 
 main {
-	width: 75%;
+	width: 65%;
 }
 
 [role="complementary"] {
-	width: 25%;
-	padding-left: 1em;
+	width: 35%;
+	padding-left: 2em;
 }
 
 p {
@@ -44,6 +54,19 @@ h2 {
 h3 {
 	font-size: 1.7em;
 	margin: 0;
+}
+
+h4 {
+	margin: 0;
+	font-size: 1.2em;
+}
+
+h1 small,
+h2 small,
+h3 small,
+h4 small {
+	color: #888;
+	font-weight: 500;
 }
 
 #controls {
@@ -73,15 +96,20 @@ h3 {
 }
 
 #rooms > li {
-	padding: 1em .5em;
+	padding: .5em .5em;
 	margin: 0;
 	border: 1px solid transparent;
+	position: relative;
+}
+
+#rooms .room-name {
+	font-size: 1.4em;
 }
 
 #rooms > li.expanded {
-	background-color: #FCFCE6;
-	border-color: #BFB975;
-	box-shadow: inset #E3DD9F 0 0 3px;
+	background-color: #f7f7f7;
+	border-color: #bbb;
+	box-shadow: inset #E3DD9F 0 0 4px;
 }
 
 #rooms > li.expanded:not(:first-child) {
@@ -92,13 +120,37 @@ h3 {
 	border-bottom-color: #d2d2d2;
 }
 
-
 #rooms .room-expand {
 	cursor: pointer;
 }
 
 #rooms .room-details {
-	font-size: .9em;
+	font-size: .8em;
+	position: absolute;
+	right: 1em;
+	top: 1.2em;
+	color: #666;
+}
+
+#rooms .create-booking {
+	font-size: 1.1em;
+}
+
+#rooms .room-details li:not(:last-child)::after {
+	content: ", ";
+}
+
+#rooms > li:not(.expanded):hover .room-name span {
+	background-color: #FCF99A;
+}
+
+#rooms .room-additional {
+	overflow: hidden;
+}
+
+#rooms .no-content {
+	font-size: 1.4em;
+	text-align: center;
 }
 
 .tags li {
@@ -126,7 +178,19 @@ aside section:not(:last-child){
 }
 
 #user-bookings > li {
-	
+	padding: 4px 8px;
+	border-radius: 5px;
+	border: 1px solid transparent;
+}
+
+#user-bookings > li:not(.booking-edit):hover {
+	cursor: pointer;
+	border-color: #d2d2d2;
+}
+
+#user-bookings > li.expanded {
+	padding-bottom: 8px;
+	border-color: #828282;
 }
 
 #user-bookings > li.highlight {
@@ -145,30 +209,59 @@ input[type="submit"] {
 	-webkit-appearance: none;
 	-webkit-font-smoothing: antialiased;
 	border-radius: 3px;
-	background: -webkit-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
-	border: 1px solid #ccc;
+	background-color: #e1e1e1;
+	border: 0;
 	font: bold 1em/1.5 sans-serif;
 	color: #444;
 	text-align: center;
 	padding: .3em 1em;
 	cursor: pointer;
+	transition: background-color .15s ease-out;
 }
 
 .btn:active,
 button:active,
 input[type="button"]:active,
 input[type="submit"]:active {
-	border-color: #aaa;
 	outline: none;
-	background-image: none;
-	background-color: #eaeaea;
+	background-color: #d7d7d7;
 }
 
 .btn:hover,
 button:hover,
 input[type="button"]:hover,
 input[type="submit"]:hover {
-	border-color: #aaa;
+	background-color: #d1d1d1;
+}
+
+.btn.accent,
+button.accent,
+input[type="button"].accent,
+input[type="submit"].accent {
+	background-color: #76BF60;
+	color: #fff;
+}
+
+.btn.accent:hover,
+button.accent:hover,
+input[type="button"].accent:hover,
+input[type="submit"].accent:hover {
+	background-color: #60A34B;
+}
+
+.btn:disabled,
+button:disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+.btn:disabled:hover,
+button:disabled:hover,
+input[type="button"]:disabled:hover,
+input[type="submit"]:disabled:hover {
+	background-color: #f9f9f9;
+	color: #444;
+	border: 1px solid #bbb;
+	color: #999;
+	cursor: default;
 }
 
 input[type="text"],
@@ -196,11 +289,16 @@ input[type="date"]:focus,
 input[type="search"]:focus,
 input[type="time"]:focus {
 	outline: none;
-
 }
+
 
 input[type="search"] {
 	border-radius: 2em;
+	background-color: #fcfcfc;
+}
+
+input[type="search"]:focus {
+	background-color: #fff;
 }
 
 label[for] {
@@ -235,7 +333,7 @@ label[for] {
 }
 
 .time-display .line{
-	border-left: 1px dotted darkgrey;
+	border: 1px dotted darkgrey;
 	width: 0px;
 	position: absolute;
 	top: 0;
@@ -262,8 +360,23 @@ label[for] {
 	display: inline-block;
 }
 
-.destroy {
-	color: red;
+dl.list {
+	overflow: hidden;
+}
+
+dl.list dt {
+	font-weight: 500;
+	float: left;
+	clear: left;
+	text-align: right;
+	min-width: 30%;
+}
+
+dl.list dd {
+	float: left;
+	max-width: 60%;
+	margin: 0 0 0 1em;
+	color: #444;
 	font-size: .9em;
 }
 
@@ -276,4 +389,147 @@ label[for] {
 	to {
 		background-color: transparent;
 	}
+}
+
+.booking-extra {
+	margin-top: .5em;
+}
+
+.booking-extra .confirmation-text {
+	margin-bottom: .5em;
+}
+
+.action-links {
+	font-size: 1.1em;
+	display: table;
+	width: 100%;
+}
+
+.action-links span {
+	cursor: pointer;
+	background-color: #fff;
+}
+
+.action-links > span,
+.action-links .confirmation span {
+	padding: .3em .5em;
+	width: 50%;
+}
+
+.action-links span {
+	display: table-cell;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+}
+
+.action-links > span:last-child {
+	border-radius: 0 3px 3px 0;
+}
+
+.action-links > span:first-child:not(.update) {
+	border-radius: 3px 0 0 3px;
+	border-right: 0;
+}
+
+.action-links .destroy {
+	border: 1px solid #ED1313;
+	color: #ED1313;
+}
+
+.action-links .destroy:hover {
+	background-color: #ED1313;
+	color: #fff;
+}
+
+.action-links .edit {
+	border: 1px solid #1396ED;
+	color: #1396ED;
+}
+
+.action-links .update {
+	border: 1px solid #6DB056;
+	color: #6DB056;
+}
+
+.action-links .update:hover {
+	background-color: #6DB056;
+	color: #fff;
+}
+
+.booking-edit input[type="text"]{
+	font-size: 1em;
+}
+
+.action-links .confirmation {
+	display: table;
+	width: 100%;
+	border-radius: 3px;
+	padding: 0;
+	border-color: transparent;
+}
+
+.action-links .confirmation > div {
+	display: table-row;
+}
+
+.action-links .confirmation:hover {
+	background: none;
+}
+
+.action-links .edit:hover {
+	background-color: #1396ED;
+	color: #fff;
+}
+
+.action-links .update {
+	width: 100%;
+}
+
+.action-links .destroy-ok {
+	background-color: #ED1313;
+	color: #fff;
+}
+
+.action-links .destroy-cancel {
+	background-color: #bbb;
+	color: #fff;
+}
+
+/* HELPERS */
+
+.no-content {
+	color: #aaa;
+	font-size: 1em;
+	font-weight: 500;
+}
+
+.detail {
+	color: #888;
+	font-size: .9em;
+	font-style: italic;
+}
+
+.right {
+	text-align: right;
+}
+
+.left {
+	text-align: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.align-left {
+	float: left;
+}
+
+.align-right {
+	float: right;
+}
+
+.destroy {
+	color: red;
 }
