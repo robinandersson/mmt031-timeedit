@@ -9,6 +9,11 @@
 		<script src="lib/backbone.localStorage-min.js"></script>
 		<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="app.js"></script>
+		<script src="support.js"></script>
+		<script src="bookings.js"></script>
+		<script src="rooms.js"></script>
+		<script src="views.js"></script>
+		<script src="ui.js"></script>
 
 		<link rel="stylesheet" href="jquery-ui-1.10.3.custom.min.css" />
 		<link rel="stylesheet" href="style.css" />
@@ -18,25 +23,66 @@
 		<header role="banner">
 			<h1>TimeEdit</h1>
 		</header>	
+	
+		<div role="main">
+			<section id="controls">
+				<ul>
+					<li>
+						<label for="booking-location">Rum</label>
+						<input id="booking-location" type="search" size="30" placeholder="Ex. 3213" />
+					</li>
+					<li>
+						<input id="booking-date" type="date" />
+					</li>
+					<li>
+						<label for="booking-start-time" class="descriptive-help">Från</label>
+						<input id="booking-start-time" data-time="start" type="time">
+					</li>
+					<li>
+						<label for="booking-end-time" class="descriptive-help">Till</label>
+						<input id="booking-end-time" data-time="end" type="time">
+					</li>
+				</ul>
+			</section>
+			
+			<main>
+				<ul id="rooms" class="list"></ul>
+			</main>
 
-		<section id="controls">
-			<label for="booking-date">Date</label>
-			<input id="booking-date" type="date" />
-			<label for="booking-time">Time</label>
-			<input id="booking-time" type="time">
-			<label for="booking-location">Lokal</label>
-			<input id="booking-location" type="search" placeholder="E.g. 3213" />
-		</section>
-		
-		<section>
-			<ul id="rooms" class="list"></ul>
-		</section>
+			<aside role="complementary">
+				<section>
+					<h2>Mina bokningar</h2>
+					<ul id="user-bookings" class="list"></ul>
+				</section>
+			</aside>
+		</div>
+
+		<script type="text/html" id="booking-template">
+			<p><strong>Rum:</strong> <%= room.name %></p>
+			<p><strong>Tid:</strong> <%= date + ", "+startTime+"-"+endTime %></p>
+			<p><a href="#" class="destroy">Avboka</a></p>
+		</script>
 
 		<script type="text/html" id="room-template">
-			<h3 class="room-name"><%= name%> (<%= building%>)</h3>
-			<p><%= type%></p>
-			<p><a href="#" class="destroy">Remove</a></p>
+			<h3 class="room-name room-expand"><%= name%></h3>
+			<div class="room-additional" hidden>
+				<ul class="horizontal-list room-details tags">
+					<li><%= building %></li>
+					<li><%= type %></li>
+				</ul>
+				<p>
+					<button class="create-booking">Boka</button>
+				</p>
+			</div>
 			<div class="time-display"></div>
 		</script>
+
+		<script>
+			$(function() {
+				App.start();
+			});
+		</script>
+
+		<!-- Av Johan, Robin, Anno och Rolén -->
 	</body>
 </html>
