@@ -319,16 +319,38 @@ label[for] {
 .time-display {
 	width: 576px;
 	position: relative;
-	border: 1px solid;
-	height: 50px;
+	height: 5px;
+	margin: .5em 0;
+	transition: all .2s ease-out;
 }
 
+/*
+	Expanded mode
+ */
+#rooms > li.expanded .time-segment {
+	visibility: visible;
+}
+
+#rooms > li.expanded .time-display {
+	height: 30px;
+	margin: 2em 0;
+	border: 1px solid #ccc;
+	background-color: rgba(255,255,255, .5);
+	box-shadow: inset rgba(0,0,0, 0.1) 0 1px 2px;
+	border-radius: 3px;
+}
+
+#rooms > li.expanded .time-display .timebox {
+	background-color: #ED4245;
+}
+
+
 .time-display .timebox{
+	transition: background-color .2s ease-out;
 	position: absolute;
 	top: 0;
 	height: 100%;
-	/*background: repeating-linear-gradient(45deg, transparent, transparent 10px, #8b0 10px, #8b0 20px);*/
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQIW2NkQID/jFD2fyDNCOKAGSBBADZSAwNOQHx1AAAAAElFTkSuQmCC) repeat;
+	background-color: #FF7073;
 	z-index: 0;
 }
 
@@ -338,16 +360,27 @@ label[for] {
 	position: absolute;
 	top: 0;
 	height: 100%;
-	'z-index': 5000;
+	z-index: 5000;
 }
 
 .time-segment {
-	border: none, 1px dotted;
+	transition: background-color .15s ease-out;
 	position: absolute;
+	visibility: hidden;
 	top: 0;
 	height: 100%;
-	background: grey;
-	'z-index': 6000;
+	background-color: #999;
+	z-index: 6000;
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.time-segment:hover {
+	background-color: #777;
+}
+
+.time-segment:active {
+	background-color: #555;
 }
 
 .horizontal-list {
