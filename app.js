@@ -106,17 +106,19 @@ $(document).ready(function() {
 		// Remove earlier timesegments and add new ones.
 		$('.time-segment').remove();
 		$('<div class="time-segment" />').appendTo('.time-display').css({
-			width: (selected_time.end - selected_time.start) * pixels_per_five_minutes +'%',
-			left: pixels_per_five_minutes * selected_time.start + '%'
+			width: (((time_end[0] * 12 + time_end[1]/5)
+				- (time_start[0] * 12 + time_start[1]/5)) * pixels_per_five_minutes) +'px',
+			left: pixels_per_five_minutes * time_start[0] * 12 + pixels_per_five_minutes * time_start[1]/5 + 'px'
 		});
 		$('.time-segment').draggable({
 			axis: 'x',
 			containment: 'parent',
 			// snap: '.line, .segment',
 			grid: [2, 2],
-			snapMode: 'both',
+			snapMode: 'inner',
 			snapTolerance: '7',
 			stop: function(event, ui) {
+				// console.log(this);
 				console.log($(this).css('width'));
 				console.log($(this).parent().css('width'));
 			}

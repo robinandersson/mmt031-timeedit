@@ -110,6 +110,19 @@ Utils = {
 		date.setMinutes(time[1]);
 
 		return date;
+	},
+
+	pixelsFromTime: function(time, pixelsPerFiveMinutes) {
+		var time_split = time.split(':');
+		var periods = (time_split[0] * 12 + time_split[1]/5);
+		return periods * pixelsPerFiveMinutes;
+	},
+
+	timeFromPixels: function(pixels, pixelsPerFiveMinutes) {
+		var periods = (pixels / pixelsPerFiveMinutes);
+		var hours = (periods - (periods%12)) * 5 / 60;
+		var minutes = (periods%12) * 5;
+		return hours + ":" + (minutes < 10 ? "0" : "") + minutes;
 	}
 };
 
