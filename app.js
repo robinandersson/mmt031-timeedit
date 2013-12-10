@@ -97,7 +97,35 @@ $(document).ready(function() {
 	// });
 
 	// Adds draggable segments in the time display that represents the selected timespan
-	var selected_time = {start: 19*60, end: 22*60};
+	$("#booking-start-time, #booking-end-time").change(function () {
+		selected_time.start = $("#booking-start-time").val();
+		selected_time.end = $("#booking-end-time").val();
+		console.log(selected_time);
+		// Remove earlier timesegments and add new ones.
+		$('.time-segment').remove();
+
+		$('<div class="time-segment" />').appendTo('.time-display').css({
+			width: (selected_time.end - selected_time.start) * percentage_per_minute +'%',
+			left: percentage_per_minute * selected_time.start + '%'
+		});
+		$('.time-segment').draggable({
+			axis: 'x',
+			containment: 'parent',
+			snap: '.line, .segment',
+			snapMode: 'both',
+			snapTolerance: '7',
+			stop: function(event, ui) {
+				console.log($(this).css('width'));
+				console.log($(this).parent().css('width'));
+			}
+		}).resizable({
+			containment: 'parent',
+			handles: 'e, w',
+			minWidth: '100%'
+		});
+	});
+	var selected_time = {start: 0, end: 0};
+	console.log("hej" + $('input#booking-start-time').val());
 	var percentage_per_minute = 100/(24*60);
 	$('<div class="time-segment" />').appendTo('.time-display').css({
 		width: (selected_time.end - selected_time.start) * percentage_per_minute +'%',
