@@ -11,8 +11,8 @@ App.Models.Booking = App.Models.BaseModel.extend({
 		}
 
 		if(attrs.room instanceof Backbone.Model) {
-			var date1 = App.Utils.dateFromTime(attrs.date, attrs.startTime);
-			var date2 = App.Utils.dateFromTime(attrs.date, attrs.endTime);
+			var date1 = Utils.dateFromTime(attrs.date, attrs.startTime);
+			var date2 = Utils.dateFromTime(attrs.date, attrs.endTime);
 			
 			if(attrs.room.isBookedDuringTimespan(date1, date2)) {
 				return "Rum '"+ attrs.room.get("name") +"' är redan bokat under denna tid";
