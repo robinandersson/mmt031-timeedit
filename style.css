@@ -210,7 +210,7 @@ input[type="submit"] {
 	-webkit-font-smoothing: antialiased;
 	border-radius: 3px;
 	background-color: #e1e1e1;
-	border: 0;
+	border: 1px solid transparent;
 	font: bold 1em/1.5 sans-serif;
 	color: #444;
 	text-align: center;
@@ -364,7 +364,7 @@ label[for] {
 }
 
 .time-segment {
-	transition: background-color .15s ease-out;
+	transition: background-color, opacity .15s ease-out;
 	position: absolute;
 	visibility: hidden;
 	top: 0;
@@ -373,6 +373,10 @@ label[for] {
 	z-index: 6000;
 	cursor: pointer;
 	border-radius: 3px;
+}
+
+.time-segment.colliding {
+	opacity: .7;
 }
 
 .time-segment:hover {

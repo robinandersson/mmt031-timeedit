@@ -114,6 +114,11 @@ var ScheduleView = Backbone.View.extend({
 			stop: view.updateSegmentData
 		});
 
+		var that = this;
+		$el.on("drag", function(evt, data){
+			that.trigger("segment:dragged", evt, data);
+		});
+
 		return $el;
 	},
 

@@ -114,8 +114,12 @@ var RoomView = Backbone.View.extend({
  		this.listenTo(this.model, "change", this.render);
  		this.listenTo(this.model, "destroy", this.remove);
 
+ 		this.isColliding = false;
+
  		// Create sub views
  		this.scheduleView = new ScheduleView({model: this.model.bookings});
+
+ 		this.listenTo(this.scheduleView, "segment:dragged", this.toggleBookingButton);
  	},
 
  	render: function() {
@@ -134,6 +138,17 @@ var RoomView = Backbone.View.extend({
  	assign: function(view, selector) {
  		if(!view) return;
  		view.setElement(this.$(selector)).render();
+ 	},
+
+ 	toggleBookingButton: function(evt, element) {
+ 		var isColliding = Utils.isColliding(element.helper, this.$el.find(".timebox"));
+
+ 		if(isColliding !== this.isColliding) {
+ 			this.$el.find(".create-booking").attr("disabled", isColliding);
+ 			element.helper[isColliding ? "addClass" : "removeClass"]("colliding");
+
+ 			this.isColliding = isColliding;
+ 		}
  	},
 
  	createBookingData: function(roomView) {
