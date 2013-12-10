@@ -82,6 +82,7 @@ $(function() {
 
 $(document).ready(function() {
 	var $td = $('.time-display');
+	var pixels_per_five_minutes = 2;
 	// Testing: Adds some text to display what hour each section of the time-display represents
 	// $td.html('00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 00');
 	
@@ -96,10 +97,11 @@ $(document).ready(function() {
 	// };
 
 	// Testing: Adding some booked times for preview.
-	add_booked_time(1*60+22, 4*60);
-	add_booked_time(5*60+22, 7*60);
-	add_booked_time(14*60+30, 18*60);
-	add_booked_time(23*60+1, 24*60);
+	add_booked_time('5:15', '7:15');
+	add_booked_time('9:00', '11:00');
+	add_booked_time('11:30', '13:30');
+	// add_booked_time(14*60+30, 18*60);
+	// add_booked_time(23*60+1, 24*60);
 
 	// Adds the posting of the mouseposition any time you hover a time display element
 	var t = false;
@@ -124,7 +126,6 @@ $(document).ready(function() {
 		console.log(selected_time);
 		// Remove earlier timesegments and add new ones.
 		$('.time-segment').remove();
-
 		$('<div class="time-segment" />').appendTo('.time-display').css({
 			width: (selected_time.end - selected_time.start) * pixels_per_five_minutes +'%',
 			left: pixels_per_five_minutes * selected_time.start + '%'
@@ -133,7 +134,7 @@ $(document).ready(function() {
 			axis: 'x',
 			containment: 'parent',
 			// snap: '.line, .segment',
-			grid: [18, 18],
+			grid: [2, 2],
 			snapMode: 'both',
 			snapTolerance: '7',
 			stop: function(event, ui) {
@@ -144,24 +145,26 @@ $(document).ready(function() {
 			containment: 'parent',
 			handles: 'e, w',
 			minWidth: '100%',
-			grid: [18, 18]
+			grid: [2, 2]
 		});
 	});
-	var selected_time = {start: '17:30', end: '18:30'};
-	var pixels_per_five_minutes = 3;
+	var selected_time = {start: '13:15', end: '18:30'};
+	console.log("hej" + $('input#booking-start-time').val());
 	var time_end = selected_time.end.split(":");
 	var time_start = selected_time.start.split(":");
+	console.log("" + time_end + ", " + time_start);
 
 	$('<div class="time-segment" />').appendTo('.time-display').css({
-		width: ( - selected_time.start) * pixels_per_five_minutes +'px',
-		left: pixels_per_five_minutes * selected_time.start + 'px'
+		width: (((time_end[0] * 12 + time_end[1]/5)
+				- (time_start[0] * 12 + time_start[1]/5)) * pixels_per_five_minutes) +'px',
+		left: pixels_per_five_minutes * time_start[0] * 12 + pixels_per_five_minutes * time_start[1]/5 + 'px'
 	});
 	$('.time-segment').draggable({
 		axis: 'x',
 		containment: 'parent',
 		// snap: '.line, .segment',
-		grid: [18, 18],
-		snapMode: 'both',
+		grid: [2, 2],
+		snapMode: 'inner',
 		snapTolerance: '7',
 		stop: function(event, ui) {
 			// console.log(this);
@@ -172,44 +175,8 @@ $(document).ready(function() {
 		containment: 'parent',
 		handles: 'e, w',
 		minWidth: '100%',
-		grid: [18, 18]
+		grid: [2, 2]
 	});
-
-	
-	/*
-		//This shit is old, when used lines instead of a box to display time
-	$('<div class = "segment" />').appendTo('.time-display').addClass('segment-left').css({
-		width: '0.5%',
-		'border': '2px black',
-		'border-style': 'dashed dashed dashed none',
-		position: 'absolute',
-		top: '0%',
-		height: '94%',
-		'left': 100/24 * 19 + '%'
-	});
-	$('<div class = "segment" />').appendTo('.time-display').addClass('segment-right').css({
-		width: '0.5%',
-		'border': '2px black',
-		'border-style': 'dashed none dashed dashed',
-		position: 'absolute',
-		top: '0%',
-		height: '94%',
-		'left': 100/24 * 21 + '%'
-	});
-	var segment_positions = {'segment-left': {x: 'false', y: 'false'}, 'segment-right': {x: 'false', y: 'false'}};
-	$('.segment').draggable({
-		axis: 'x',
-		containment: 'parent',
-		snap: '.line, .segment',
-		snapMode: 'inner',
-		start: function(event, ui) {
-			console.log(event.target);
-		},
-		drag: function(event, ui) {
-			// if (event.target.)
-		}
-	});
-	$('.segment-right').draggable('option', 'snapMode', 'outer');*/
 
 
 	/*
@@ -218,13 +185,24 @@ $(document).ready(function() {
 	function add_booked_time(start, end
 		// , room_class
 		) {
-		percentage = 100/(60*24);
-		timespan = end*percentage-start*percentage;
+		var start_split = start.split(':');
+		var end_split = end.split(':');
+		console.log((start_split[0] * 12 + start_split[1] /5));
+		console.log((end_split[0] * 12 + end_split[1] /5));
 
-		$('.room-name').parent().children('.time-display').append('<div class="timebox '+start+' '+end+'"></div>');
-		$('.timebox.'+start+'.'+end).css({
-			width: timespan+'%',
-			'margin-left': start*percentage+'%'
+		var start_pixels = (start_split[0] * 12 + start_split[1]/5) * pixels_per_five_minutes;
+		var end_pixels = (end_split[0] * 12 + end_split[1]/5) * pixels_per_five_minutes;
+
+		// percentage = 100/(60*24);
+		timespan_pixels = end_pixels - start_pixels;
+		console.log("--Start: " + start_pixels);
+		console.log("--End: " + end_pixels);
+		console.log(timespan_pixels);
+
+		$('.room-name').parent().children('.time-display').append('<div class="timebox '+start_split[0]+start_split[1]+' '+end_split[0]+end_split[1]+'"></div>');
+		$('.timebox.'+start_split[0]+start_split[1]+'.'+end_split[0]+end_split[1]).css({
+			width: timespan_pixels + 'px',
+			'left': ((start_split[0] * pixels_per_five_minutes * 12) + (start_split[1] / 5 * pixels_per_five_minutes)) +'px'
 		});
 	};
 });
