@@ -317,10 +317,10 @@ label[for] {
 */
 
 .time-display {
-	width: 46%;
+	width: 450px;
 	position: relative;
 	border: 1px solid;
-	height: 5em;
+	height: 50px;
 }
 
 .time-display .timebox{

@@ -64,15 +64,15 @@ $(document).ready(function() {
 	// Testing: Adds some text to display what hour each section of the time-display represents
 	// $td.html('00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 00');
 	
-	// Adds 'hourly' lines for every time-display
-	position_interval = 100/48;
-	for (var i = 1; i < 48; i++) {
-		if (i%2 > 0) {
-			$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%').hide();
-		} else {
-			$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%');
-		}
-	};
+	// // Adds 'hourly' lines for every time-display
+	// position_interval = 100/48;
+	// for (var i = 1; i < 48; i++) {
+	// 	if (i%2 > 0) {
+	// 		$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%').hide();
+	// 	} else {
+	// 		$("<div/>").appendTo('.time-display').addClass('line').css('margin-left', position_interval * i + '%');
+	// 	}
+	// };
 
 	// Testing: Adding some booked times for preview.
 	add_booked_time(1*60+22, 4*60);
@@ -105,13 +105,14 @@ $(document).ready(function() {
 		$('.time-segment').remove();
 
 		$('<div class="time-segment" />').appendTo('.time-display').css({
-			width: (selected_time.end - selected_time.start) * percentage_per_minute +'%',
-			left: percentage_per_minute * selected_time.start + '%'
+			width: (selected_time.end - selected_time.start) * pixels_per_five_minutes +'%',
+			left: pixels_per_five_minutes * selected_time.start + '%'
 		});
 		$('.time-segment').draggable({
 			axis: 'x',
 			containment: 'parent',
-			snap: '.line, .segment',
+			// snap: '.line, .segment',
+			grid: [18, 18],
 			snapMode: 'both',
 			snapTolerance: '7',
 			stop: function(event, ui) {
@@ -121,20 +122,25 @@ $(document).ready(function() {
 		}).resizable({
 			containment: 'parent',
 			handles: 'e, w',
-			minWidth: '100%'
+			minWidth: '100%',
+			grid: [18, 18]
 		});
 	});
-	var selected_time = {start: 0, end: 0};
+	var selected_time = {start: '17:30', end: '18:30'};
 	console.log("hej" + $('input#booking-start-time').val());
-	var percentage_per_minute = 100/(24*60);
+	var pixels_per_five_minutes = 3;
+	var time_end = selected_time.end.split(":");
+	var time_start = selected_time.start.split(":");
+
 	$('<div class="time-segment" />').appendTo('.time-display').css({
-		width: (selected_time.end - selected_time.start) * percentage_per_minute +'%',
-		left: percentage_per_minute * selected_time.start + '%'
+		width: ( - selected_time.start) * pixels_per_five_minutes +'px',
+		left: pixels_per_five_minutes * selected_time.start + 'px'
 	});
 	$('.time-segment').draggable({
 		axis: 'x',
 		containment: 'parent',
-		snap: '.line, .segment',
+		// snap: '.line, .segment',
+		grid: [18, 18],
 		snapMode: 'both',
 		snapTolerance: '7',
 		stop: function(event, ui) {
@@ -145,7 +151,8 @@ $(document).ready(function() {
 	}).resizable({
 		containment: 'parent',
 		handles: 'e, w',
-		minWidth: '100%'
+		minWidth: '100%',
+		grid: [18, 18]
 	});
 
 	
