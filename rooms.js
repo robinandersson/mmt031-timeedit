@@ -95,6 +95,9 @@ var RoomView = Backbone.View.extend({
 
  		this.listenTo(this.model, "change", this.render);
  		this.listenTo(this.model, "destroy", this.remove);
+
+ 		// Create sub views
+ 		this.scheduleView = new App.Views.Schedule;
  	},
 
  	render: function() {
@@ -103,7 +106,15 @@ var RoomView = Backbone.View.extend({
  		if(opts.length == 1) {
  			opts.parents("select").attr("disabled", true);
  		}
+
+ 		// Assign and render schedule view
+ 		this.assign(this.scheduleView, ".time-display");
+
  		return this;
+ 	},
+
+ 	assign: function(view, selector) {
+ 		view.setElement(this.$(selector)).render();
  	},
 
  	createBookingData: function(roomView) {
