@@ -106,7 +106,7 @@ var RoomView = Backbone.View.extend({
  		this.listenTo(this.model, "destroy", this.remove);
 
  		// Create sub views
- 		this.scheduleView = new App.Views.Schedule({model: this.model.bookings});
+ 		this.scheduleView = new ScheduleView({model: this.model.bookings});
  	},
 
  	render: function() {
@@ -123,6 +123,7 @@ var RoomView = Backbone.View.extend({
  	},
 
  	assign: function(view, selector) {
+ 		if(!view) return;
  		view.setElement(this.$(selector)).render();
  	},
 
@@ -173,6 +174,13 @@ var RoomView = Backbone.View.extend({
  		this.collection.model = App.Models.Room;
  		
  		this.collection.seedOrFetch();
+ 	},
+
+ 	createTimeSegments: function(timeslot) {
+ 		this.$el.find(".time-segment").css({
+ 			width: (timeslot.endTime - timeslot.startTime) * 2 +'%',
+ 			left: 2 * timeslot.startTime + '%'
+ 		});
  	},
 
  	refresh: function(filter) {

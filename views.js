@@ -6,7 +6,8 @@
 var ControlView = Backbone.View.extend({
 
 	events: {
-		"change input[type='date'],input[type='time']" : "setDateTimes"
+		"change input[type='date'],input[type='time']" : "setDateTimes",
+		"change #booking-start-time, #booking-end-time" : "updateTimeSegments"
 	},
 
 	modelBindings: {
@@ -14,6 +15,20 @@ var ControlView = Backbone.View.extend({
 		"#booking-date" : "date",
 		"#booking-start-time" : "startTime",
 		"#booking-end-time" : "endTime"
+	},
+
+	updateTimeSegments: function(evt) {
+		var selected_time = this.getTimeslot();
+
+		/*
+
+		// Remove earlier timesegments and add new ones.
+		$('.time-segment').remove();
+		$('<div class="time-segment" />').appendTo('.time-display').css({
+			width: (selected_time.end - selected_time.start) * pixels_per_five_minutes +'%',
+			left: pixels_per_five_minutes * selected_time.start + '%'
+		});
+		*/
 	},
 
 	initialize: function() {
@@ -48,6 +63,13 @@ var ControlView = Backbone.View.extend({
 				});
 			});
 		}
+	},
+
+	getTimeslot: function() {
+		return {
+			startTime: $("#booking-start-time").val(),
+			endTime: $("#booking-end-time").val()
+		};
 	},
 
 	setDateTimes: function(evt) {
