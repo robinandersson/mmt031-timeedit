@@ -122,7 +122,12 @@ Utils = {
 		var periods = (pixels / pixelsPerFiveMinutes);
 		var hours = (periods - (periods%12)) * 5 / 60;
 		var minutes = (periods%12) * 5;
-		return hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+
+		var now = new Date;
+		now.setHours(hours);
+		now.setMinutes(minutes);
+
+		return now.hhmm();
 	}
 };
 
