@@ -5,8 +5,9 @@
 		<title>TimeEdit</title>
 		<script src="lib/jquery-min.js"></script>
 		<script src="lib/underscore-min.js"></script>
-		<script src="lib/backbone.js"></script>
-		<script src="lib/backbone.localStorage.js"></script>
+		<script src="lib/backbone-min.js"></script>
+		<script src="lib/backbone.localStorage-min.js"></script>
+		<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="app.js"></script>
 		<script src="support.js"></script>
 		<script src="bookings.js"></script>
@@ -14,6 +15,7 @@
 		<script src="views.js"></script>
 		<script src="ui.js"></script>
 
+		<link rel="stylesheet" href="jquery-ui-1.10.3.custom.min.css" />
 		<link rel="stylesheet" href="style.css" />
 	</head>
 
@@ -107,7 +109,6 @@
 				<li title="Byggnad"><%= building %></li>
 				<li title="Typ av rum/utrustning"><%= type %></li>
 			</ul>
-
 			<div class="room-additional" hidden>
 				<div class="align-left">
 					<input type="text" size="22" class="booking-comment" placeholder="Kommentar (frivilligt)" autofocus />
@@ -124,6 +125,7 @@
 					<button class="create-booking accent">Boka</button>
 				</p>
 			</div>
+			<div class="time-display"></div>
 		</script>
 
 		<script type="text/html" id="empty-list-template">

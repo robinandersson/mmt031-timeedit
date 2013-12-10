@@ -311,6 +311,45 @@ label[for] {
 	padding: 0;
 }
 
+
+/*
+	The style for the timeboxes
+*/
+
+.time-display {
+	width: 46%;
+	position: relative;
+	border: 1px solid;
+	height: 5em;
+}
+
+.time-display .timebox{
+	position: absolute;
+	top: 0;
+	height: 100%;
+	/*background: repeating-linear-gradient(45deg, transparent, transparent 10px, #8b0 10px, #8b0 20px);*/
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAGElEQVQIW2NkQID/jFD2fyDNCOKAGSBBADZSAwNOQHx1AAAAAElFTkSuQmCC) repeat;
+	z-index: 0;
+}
+
+.time-display .line{
+	border: 1px dotted darkgrey;
+	width: 0px;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	'z-index': 5000;
+}
+
+.time-segment {
+	border: none, 1px dotted;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	background: grey;
+	'z-index': 6000;
+}
+
 .horizontal-list {
 	list-style: none;
 	padding: 0;
