@@ -80,7 +80,7 @@ Utils = {
 			nextHour = "00";
 		}
 
-		if(nextHour < 10) {
+		if(typeof nextHour !== "string" && nextHour < 10) {
 			nextHour = "0"+nextHour;
 		}
 
