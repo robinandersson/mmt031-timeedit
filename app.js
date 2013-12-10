@@ -38,6 +38,27 @@
 		},
 
 		/*
+			Add some default bookings to some rooms
+		*/
+		bootstrap: function(rooms) {
+			var room = rooms.models[0];
+			var date = Utils.generateNextDateSpan();
+			var data = _.extend(date, {room: room});
+
+			var m = room.bookings.create(data);
+
+			/*rooms.each(function(room, index) {
+				var data = {
+					room: room
+				},
+				date = Utils.generateNextDateSpan();
+
+				_.extend(data, date);
+				var m = room.bookings.create(data);
+			});*/
+		},
+
+		/*
 			Generate a new booking from today's date and time
 		 */
 		createBooking: function(){
@@ -127,7 +148,6 @@ $(document).ready(function() {
 		});
 	});
 	var selected_time = {start: '17:30', end: '18:30'};
-	console.log("hej" + $('input#booking-start-time').val());
 	var pixels_per_five_minutes = 3;
 	var time_end = selected_time.end.split(":");
 	var time_start = selected_time.start.split(":");

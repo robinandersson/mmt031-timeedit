@@ -177,7 +177,6 @@ function updateInputs(dateHash) {
 	var dateObject = {};
 	if(typeof dateHash === "string" && dateHash === "now") {
 		dateObject = Utils.generateNextDateSpan();
-		console.log(dateObject);
 	}
 
 	$("#booking-date").val(dateObject.date);

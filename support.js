@@ -149,7 +149,6 @@ Date.prototype.yyyymmdd = function() {
  */
 Date.prototype.hhmm = function(autoCorrect) {
 	if(autoCorrect === undefined) autoCorrect = true;
-	console.log(autoCorrect);
 
 	var hours = this.getHours();
 	var minutes = this.getMinutes();

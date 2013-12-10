@@ -59,6 +59,15 @@ App.Models.Room = App.Models.BaseModel.extend({
 
  	initialize: function() {
  		this.bookings = new App.Collections.BookingCollection;
+
+ 		this.bootstrap();
+ 	},
+
+ 	bootstrap: function() {
+ 		var date = Utils.generateNextDateSpan();
+ 		var data = _.extend({room: this}, date);
+
+ 		var m = this.bookings.create(data);
  	},
 
  	isBookedRightNow: function() {
@@ -97,7 +106,7 @@ var RoomView = Backbone.View.extend({
  		this.listenTo(this.model, "destroy", this.remove);
 
  		// Create sub views
- 		this.scheduleView = new App.Views.Schedule;
+ 		this.scheduleView = new App.Views.Schedule({model: this.model.bookings});
  	},
 
  	render: function() {
