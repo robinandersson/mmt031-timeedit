@@ -149,6 +149,8 @@ var RoomView = Backbone.View.extend({
 
  		App.GLOBAL_BOOKING.set(this.createBookingData(this));
 
+ 		console.log(this.scheduleView.timeslotData);
+
  		if(App.GLOBAL_BOOKING.isValid()) {
  			this.model.bookings.create(App.GLOBAL_BOOKING);
  			UserBookings.create(App.GLOBAL_BOOKING.clone());

@@ -52,6 +52,33 @@ var ScheduleView = Backbone.View.extend({
 		}, this);
 	},
 
+	updateSegmentData: function(evt, segment) {
+		var start, width;
+		var el = $(this);
+		
+		if(segment === undefined) {
+			el = this.$el.find(".time-segment");
+			width = el.width();
+			start = parseInt(el.css("left"));
+		}
+		else {
+			if(segment.position !== undefined) 
+				start = segment.position.left;
+			else
+				start = parseInt(el.css("left"));
+			
+			if(segment.size !== undefined)
+				width = segment.size.width;
+			else 
+				width = el.width();
+		}
+
+		this.timeslotData = {
+			startTime: start,
+			length: width
+		}
+	},
+
 	createSegment: function(timeslot) {
 
 		if(timeslot === undefined) {
@@ -61,6 +88,7 @@ var ScheduleView = Backbone.View.extend({
 			};
 		}
 
+		var view = this;
 		var $el = $('<div class="time-segment" />');
 		var time_end = timeslot.endTime.split(":");
 		var time_start = timeslot.startTime.split(":");
@@ -77,15 +105,13 @@ var ScheduleView = Backbone.View.extend({
 			grid: [2, 2],
 			snapMode: 'inner',
 			snapTolerance: '7',
-			stop: function(event, ui) {
-				console.log($(this).css('width'));
-				console.log($(this).parent().css('width'));
-			}
+			drag: view.updateSegmentData
 		}).resizable({
 			containment: 'parent',
 			handles: 'e, w',
 			minWidth: '100%',
-			grid: [2, 2]
+			grid: [2, 2],
+			stop: view.updateSegmentData
 		});
 
 		return $el;
@@ -97,5 +123,6 @@ var ScheduleView = Backbone.View.extend({
 		}, this);
 
 		this.$el.append(this.createSegment());
+		this.updateSegmentData();
 	}
 });
