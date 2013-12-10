@@ -148,7 +148,8 @@ Date.prototype.yyyymmdd = function() {
  * @return A string on the format "HH:mm"
  */
 Date.prototype.hhmm = function(autoCorrect) {
-	if(typeof autoCorrect === undefined) autoCorrect = true;
+	if(autoCorrect === undefined) autoCorrect = true;
+	console.log(autoCorrect);
 
 	var hours = this.getHours();
 	var minutes = this.getMinutes();
