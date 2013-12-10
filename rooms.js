@@ -64,7 +64,16 @@ App.Models.Room = App.Models.BaseModel.extend({
  	},
 
  	bootstrap: function() {
- 		var date = Utils.generateNextDateSpan();
+ 		var now = new Date;
+ 		now.setHours(10);
+ 		var next = new Date(now);
+ 		next.setHours(12);
+
+ 		var date = {
+ 			date: now.yyyymmdd(),
+ 			startTime: now.hhmm(),
+ 			endTime: next.hhmm()
+ 		};
  		var data = _.extend({room: this}, date);
 
  		var m = this.bookings.create(data);
