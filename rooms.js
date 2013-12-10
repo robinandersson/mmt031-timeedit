@@ -147,13 +147,19 @@ var RoomView = Backbone.View.extend({
 
  	createBooking: function(evt) {
 
- 		App.GLOBAL_BOOKING.set(this.createBookingData(this));
+ 		var booking = new App.Models.Booking(this.createBookingData(this));
 
- 		console.log(this.scheduleView.timeslotData);
+ 		booking.set("date", $("#booking-date").val());
+ 		booking.set({
+ 			startTime: Utils.timeFromPixels(this.scheduleView.timeslotData.startTime, this.scheduleView.pixels_per_five_minutes),
+ 			endTime: Utils.timeFromPixels(this.scheduleView.timeslotData.endTime, this.scheduleView.pixels_per_five_minutes)
+ 		});
 
- 		if(App.GLOBAL_BOOKING.isValid()) {
- 			this.model.bookings.create(App.GLOBAL_BOOKING);
- 			UserBookings.create(App.GLOBAL_BOOKING.clone());
+ 		console.log(booking.toJSON());
+
+ 		if(booking.isValid()) {
+ 			this.model.bookings.create(booking);
+ 			UserBookings.create(booking.clone());
 
  			// Cleanup
  			App.GLOBAL_BOOKING = App.createBooking();

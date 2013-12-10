@@ -75,7 +75,7 @@ var ScheduleView = Backbone.View.extend({
 
 		this.timeslotData = {
 			startTime: start,
-			length: width
+			endTime: start + width
 		}
 	},
 
