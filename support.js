@@ -155,6 +155,41 @@ Utils = {
 
 	isColliding: function(targetSelector, intersectorsSelector) {
 		return Utils.findIntersectors(targetSelector, intersectorsSelector).length > 0;
+	},
+
+	createRandomBookingData: function() {
+		var data = {
+			comment: "Random comment",
+			description: "My own description",
+			purpose: "Övrigt"
+		},
+
+		date = Utils.getRandomTimeslot();
+
+		return _.extend(data, date);
+	},
+
+	randomFromInterval: function(from, to) {
+		return Math.floor(Math.random()*(to-from+1)+from);
+	},
+
+	getRandomTimeslot: function() {
+		var now = new Date,
+				randomMinute = Utils.randomFromInterval(0, 60),
+				randomHour = Utils.randomFromInterval(8, 22),
+				randomLength = Utils.randomFromInterval(1, 5);
+
+		now.setHours(randomHour);
+		now.setMinutes(randomMinute);
+
+		var endDate = new Date(now);
+		endDate.setHours(randomHour + randomLength);
+
+		return {
+			date: now.yyyymmdd(),
+			startTime: now.hhmm(),
+			endTime: endDate.hhmm()
+		};
 	}
 };
 
