@@ -46,14 +46,20 @@ p {
 	margin: 0;
 }
 
+h1 {
+	margin-bottom: .5em;
+}
+
 h2 {
 	font-weight: normal;
 	color: #555;
 }
 
 h3 {
-	font-size: 1.7em;
-	margin: 0;
+	font-size: 1em;
+	font-weight: normal;
+	margin: 0 0 .5em;
+	color: #777;
 }
 
 h4 {
