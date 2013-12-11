@@ -6,7 +6,7 @@
 
 var BaseCollection = Backbone.Collection.extend({
 
-	seed: function() {
+	seed: function(callback) {
 		// Don't try to seed if no source (url or file) is specified
 		if(!this.url) return;
 
@@ -16,20 +16,22 @@ var BaseCollection = Backbone.Collection.extend({
 		// Fetch models from URL and inject into the collection.
 		// Also remember to initially create the models in the local store
 		// as well.
-		$.getJSON(this.url, function(json) {
+		$.getJSON(this.url, function(json, status, jqxhr) {
 			if(json && json.length) 
 				var models = collection.reset(json);
 				$.each(models, function(i, model) {
 					collection.localStorage.create(model);
 				});
+				
+				if(callback !== undefined) callback(collection, jqxhr, null);
 				console.log("* Done seeding "+models.length + " models into store");
 		});
 	},
 
 	// If the local store is empty, seed it from remote. Else, fetch from
 	// local store into collection.
-	seedOrFetch: function() {
-		(!this.localStorage.findAll().length) ? this.seed() : this.fetch();
+	seedOrFetch: function(callback) {
+		(!this.localStorage.findAll().length) ? this.seed() : this.fetch({reset: true, success: callback});
 	}
 });
 

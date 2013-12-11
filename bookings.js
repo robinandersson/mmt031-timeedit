@@ -47,7 +47,7 @@ var UserBookingsView = Backbone.View.extend({
 		this.setElement($("#user-bookings"));
 
 		this.listenTo(this.collection, "reset", this.addAll);
-		this.listenTo(this.collection, "add", this.addAll);
+		this.listenTo(this.collection, "add", this.addOne);
 
 		this.collection.fetch();
 	},
@@ -61,7 +61,7 @@ var UserBookingsView = Backbone.View.extend({
 	addOne: function(booking) {
 		var view = new BookingView({model: booking, parent: this});
 
-		this.$el.append(view.render().$el.addClass("highlight"));
+		this.$el.prepend(view.render().$el.addClass("highlight"));
 	},
 
 	_switchView: function(originalView, secondView) {

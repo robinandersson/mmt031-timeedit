@@ -37,12 +37,16 @@
 			Rooms.reset();
 		},
 
+		initialBootstrapEnabled: false,
+
 		/*
 			Add some default bookings to some rooms
 		*/
 		bootstrap: function(rooms, bookingsPerRoom) {
-			UserBookings.reset();
 
+			if(!this.initialBootstrapEnabled) return;
+
+			console.log("* Bootstrapping rooms ...");
 			rooms.each(function(room, index) {
 				var max = Utils.randomFromInterval(1, bookingsPerRoom);
 
@@ -56,14 +60,21 @@
 						_.extend(data, {room: room});
 						
 						var m = room.bookings.create(data);
-
-						UserBookings.add(m);
-						m.save();
+						// Add some bookings to Userbookings
+						if(index % 3 == 0) {
+							UserBookings.add(m);
+							m.save();
+						}
 					}
 				}
 			});
 
-			console.log("* Bootstrapped bookings into "+rooms.length+" rooms");
+			var totalBookings = rooms.reduce(function(memo, room) {
+				return memo + room.bookings.length;
+			}, 0);
+
+			console.log("* Bootstrapped "+ totalBookings +" bookings into "+rooms.length+" rooms");
+			console.log("* Added "+UserBookings.length+" bookings to UserBookings");
 		},
 
 		/*

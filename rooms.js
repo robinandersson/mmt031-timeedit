@@ -181,8 +181,6 @@ var RoomView = Backbone.View.extend({
  			endTime: Utils.timeFromPixels(this.scheduleView.timeslotData.endTime, this.scheduleView.pixels_per_five_minutes)
  		});
 
- 		console.log(booking.toJSON());
-
  		if(booking.isValid()) {
  			this.model.bookings.create(booking);
  			UserBookings.create(booking.clone());
@@ -216,14 +214,8 @@ var RoomView = Backbone.View.extend({
  		//FIXME: workaround
  		this.collection.model = App.Models.Room;
  		
+ 		// Use the newly created rooms to feed with random bookings
  		this.collection.seedOrFetch();
- 	},
-
- 	createTimeSegments: function(timeslot) {
- 		this.$el.find(".time-segment").css({
- 			width: (timeslot.endTime - timeslot.startTime) * 2 +'%',
- 			left: 2 * timeslot.startTime + '%'
- 		});
  	},
 
  	refresh: function(filter) {
@@ -242,6 +234,9 @@ var RoomView = Backbone.View.extend({
  	},
 
  	addAll: function(collection) {
+ 		// Bootstrap bookings into rooms
+ 		App.bootstrap(collection, 3);
+
  		// Clear list before adding item views
  		
  		if(collection.isEmpty()) {
