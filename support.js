@@ -117,7 +117,12 @@ Utils = {
 	pixelsFromTime: function(time, pixelsPerFiveMinutes) {
 		var time_split = time.split(':');
 		var periods = (time_split[0] * 12 + time_split[1]/5);
-		return periods * pixelsPerFiveMinutes;
+		var pixels = periods * pixelsPerFiveMinutes
+		return (pixels% pixelsPerFiveMinutes > 0 ? 
+			((pixels % pixelsPerFiveMinutes) > pixelsPerFiveMinutes/2 ? 
+				pixels - (pixels%pixelsPerFiveMinutes) + pixelsPerFiveMinutes 
+				: pixels - (pixels%pixelsPerFiveMinutes) ) 
+			: pixels);
 	},
 
 	timeFromPixels: function(pixels, pixelsPerFiveMinutes) {
@@ -129,7 +134,7 @@ Utils = {
 		now.setHours(hours);
 		now.setMinutes(minutes);
 
-		return now.hhmm();
+		return now.hhmm(false);
 	},
 
 	findIntersectors: function(targetSelector, intersectorsSelector) {
@@ -254,7 +259,7 @@ Date.prototype.hhmm = function(autoCorrect) {
 		hours = "0"+hours;
 	}
 	if(minutes.toString().length === 1) {
-		minutes = minutes + "0";
+		minutes = "0" + minutes;
 	}
 
 	return hours + ":" + minutes;

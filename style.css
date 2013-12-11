@@ -369,7 +369,7 @@ label[for] {
 }
 
 .time-display .line{
-	border: 1px dotted darkgrey;
+	border-left: 1px dotted darkgrey;
 	width: 0px;
 	position: absolute;
 	top: 0;

@@ -146,8 +146,8 @@ var RoomView = Backbone.View.extend({
  	updateTimeDisplay: function(evt, scheduleView, element) {
  		var el = this.$el.find(".segment-timestamps");
  		var timeslot = {
- 		  startTime: Utils.timeFromPixels(scheduleView.timeslotData.startTime, scheduleView.pixels_per_five_minutes),
- 		  endTime: Utils.timeFromPixels(scheduleView.timeslotData.endTime, scheduleView.pixels_per_five_minutes)
+ 		  startTime: Utils.timeFromPixels(Math.floor(scheduleView.timeslotData.startTime), scheduleView.pixels_per_five_minutes),
+ 		  endTime: Utils.timeFromPixels(Math.floor(scheduleView.timeslotData.endTime), scheduleView.pixels_per_five_minutes)
 		};
 
 		el.find("time").html(timeslot.startTime+"-"+timeslot.endTime);

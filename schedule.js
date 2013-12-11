@@ -42,6 +42,12 @@ var ScheduleView = Backbone.View.extend({
 
 		this.listenTo(this.bookings, "remove", this.removeSubView);
 		this.listenTo(UserBookings, "remove", this.removeSubView);
+
+		var $timeD = $('.time-display')
+		for (var i=1;i<24;i++) {
+			$timeD.append('<div class="line" style="left: ' 
+				+ i*12*this.pixels_per_five_minutes + 'px"></div>');
+		}
 	},
 
 	removeSubView: function(model, collection) {
@@ -95,25 +101,39 @@ var ScheduleView = Backbone.View.extend({
 		var $el = $('<div class="time-segment" />');
 		var time_end = timeslot.endTime.split(":");
 		var time_start = timeslot.startTime.split(":");
-
 		$el.css({
-			width: (((time_end[0] * 12 + time_end[1]/5)
-					- (time_start[0] * 12 + time_start[1]/5)) * this.pixels_per_five_minutes) +'px',
-			left: this.pixels_per_five_minutes * time_start[0] * 12 + this.pixels_per_five_minutes * time_start[1]/5 + 'px'
+			// width: (((time_end[0] * 12 + time_end[1]/5)
+			// 		- (time_start[0] * 12 + time_start[1]/5)) * this.pixels_per_five_minutes) +'px',
+			width: (Utils.pixelsFromTime(timeslot.endTime, this.pixels_per_five_minutes) 
+				- Utils.pixelsFromTime(timeslot.startTime, this.pixels_per_five_minutes)) 
+				+ "px",
+			// left: this.pixels_per_five_minutes * time_start[0] * 12 + this.pixels_per_five_minutes * (time_start[1]/5) + 'px'
+			left: Utils.pixelsFromTime(timeslot.startTime, this.pixels_per_five_minutes) + 'px'
 		});
 
 		$el.draggable({
 			axis: 'x',
 			containment: 'parent',
 			grid: [2, 2],
-			snapMode: 'inner',
-			snapTolerance: '7'
+			drag: function(event, ui) {
+				x2 = ui.position.left;
+				ui.position.left = Math.floor(x2);
+
+			// 	// var $t = $(this);
+			// 	// var left = $t.css("left").split("px").join("");
+			// 	// var grid = $t.draggable("option", "grid");
+			// 	// var rounded = Math.round(left);
+			// 	// console.log(rounded);
+			// 	// $t.css("left", (rounded % grid[0] > 0 ? rounded - (rounded % grid[0]) : rounded ) + "px");
+			}
 		}).resizable({
 			containment: 'parent',
 			handles: 'e, w',
 			minWidth: '100%',
 			grid: [2, 2]
 		});
+
+
 
 		$el.on("drag stop resize", function(evt, data) {
 			view.updateSegmentData.call(view, evt, data);
