@@ -49,7 +49,11 @@ var UserBookingsView = Backbone.View.extend({
 		this.listenTo(this.collection, "reset", this.addAll);
 		this.listenTo(this.collection, "add", this.addOne);
 
-		this.collection.fetch();
+		this.collection.fetch({
+			success: function(collection) {
+				App.bidirectionalSeed(collection);
+			}
+		});
 	},
 
 	addAll: function() {

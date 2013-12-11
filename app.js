@@ -10,6 +10,42 @@
 			return _.template($("#empty-list-template").html());
 		},
 
+		_firstBool: false,
+		_firstCollection: null,
+
+		bidirectionalSeed: function(collection) {
+			if(!this._firstBool) {
+				this._firstBool = true;
+				this._firstCollection = collection;
+				return;
+			}
+
+			var userBookings = (this._firstCollection instanceof App.Collections.UserBookingCollection)
+				? this._firstCollection : collection;
+
+			var rooms;
+
+			if(userBookings == this._firstCollection) {
+				rooms = collection;
+			}else {
+				rooms = this._firstCollection;
+			}
+
+			this._firstBool = false;
+			this._bidirectionalSeed(rooms, userBookings);
+		},
+
+		_bidirectionalSeed: function(rooms, bookings) {
+
+			rooms.each(function(room) {
+				bookings.each(function(booking) {
+					if(room.get("id") === booking.attributes.room.id) {
+						room.bookings.add(booking);
+					}
+				});
+			});
+		},
+
 		start: function() {
 			console.log("Initializing app ...");
 

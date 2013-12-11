@@ -38,18 +38,18 @@ var ScheduleView = Backbone.View.extend({
 
 	initialize: function(args) {
 		this.bookings = args.model;
-		this.subViews = [];
-
-		this.createTimeslotViews(this.bookings.models);
 	},
 
 	/*
 		Assign several subviews and render them
 	 */
 	createTimeslotViews: function(models) {
+		var views = [];
 		_.each(models, function (booking) {
-			this.subViews.push( new TimeslotView({model: booking, parent: this}) );
+			views.push( new TimeslotView({model: booking, parent: this}) );
 		}, this);
+
+		return views;
 	},
 
 	updateSegmentData: function(evt, segment) {
@@ -114,7 +114,11 @@ var ScheduleView = Backbone.View.extend({
 	},
 
 	render: function() {
-		_(this.subViews).each(function(subview) {
+		console.log(this.bookings);
+
+		var subviews = this.createTimeslotViews(this.bookings.models);
+
+		_.each(subviews, function(subview) {
 			this.$el.append(subview.render().el);
 		}, this);
 

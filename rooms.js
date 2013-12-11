@@ -113,6 +113,7 @@ var RoomView = Backbone.View.extend({
 
  		this.listenTo(this.model, "change", this.render);
  		this.listenTo(this.model, "destroy", this.remove);
+ 		this.listenTo(this.model.bookings, "add", this.render);
 
  		this.isColliding = false;
 
@@ -124,6 +125,7 @@ var RoomView = Backbone.View.extend({
  	},
 
  	render: function() {
+
  		this.$el.html(this.template(this.model.toJSON()));
  		var opts = this.$el.find(".booking-purpose option");
  		if(opts.length == 1) {
@@ -215,7 +217,9 @@ var RoomView = Backbone.View.extend({
  		this.collection.model = App.Models.Room;
  		
  		// Use the newly created rooms to feed with random bookings
- 		this.collection.seedOrFetch();
+ 		this.collection.seedOrFetch(function(rooms) {
+ 			App.bidirectionalSeed(rooms);
+ 		});
  	},
 
  	refresh: function(filter) {
