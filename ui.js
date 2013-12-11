@@ -182,6 +182,8 @@ function updateInputs(dateHash) {
 	$("#booking-date").val(dateObject.date);
 	$("#booking-start-time").val(dateObject.startTime);
 	$("#booking-end-time").val(dateObject.endTime);
+
+	App.Views.Controls.refresh();
 }
 
 $(function() {
@@ -192,8 +194,6 @@ $(function() {
 	});
 
 	$("#booking-start-time").incrementDates("#booking-end-time");
-
-	updateInputs("now");
 	
 	$("#rooms").toggleExtra({
 		trigger: ".room-expand",

@@ -237,9 +237,15 @@ var RoomView = Backbone.View.extend({
  		this.$el.append(view.render().el);
  	},
 
+ 	render: function() {
+ 		this.collection.each(function(room) {
+ 			this.addOne(room);
+ 		}, this);
+ 		
+ 		return this;
+ 	},
+
  	addAll: function(collection) {
- 		// Bootstrap bookings into rooms
- 		App.bootstrap(collection, 3);
 
  		// Clear list before adding item views
  		

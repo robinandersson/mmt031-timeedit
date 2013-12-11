@@ -48,13 +48,6 @@ var ControlView = Backbone.View.extend({
 		if(this.rooms.collection != null) {
 			var view = this;
 
-			// Always include date info in filter
-			this.filter.attributes = {
-				date: $("#booking-date").val(),
-				startTime: $("#booking-start-time").val(),
-				endTime: $("#booking-end-time").val()
-			}
-
 			_.each(this.modelBindings, function(attribute, selector) {
 				view.$(selector).on("input", function(evt){
 					var data = view.$(evt.target).val();
@@ -79,6 +72,15 @@ var ControlView = Backbone.View.extend({
 	
 
 	refresh: function() {
-		this.rooms.refresh(this.filter.attributes);
+		// Always include date info in filter
+		var dates = {
+			date: $("#booking-date").val(),
+			startTime: $("#booking-start-time").val(),
+			endTime: $("#booking-end-time").val()
+		};
+
+		var filter = _.extend(this.filter.attributes, dates);
+
+		this.rooms.refresh(filter);
 	}
 });

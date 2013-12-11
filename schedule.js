@@ -114,7 +114,6 @@ var ScheduleView = Backbone.View.extend({
 	},
 
 	render: function() {
-		console.log(this.bookings);
 
 		var subviews = this.createTimeslotViews(this.bookings.models);
 
