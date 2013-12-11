@@ -64,7 +64,7 @@ var UserBookingsView = Backbone.View.extend({
 
 	addOne: function(booking) {
 		var view = new BookingView({model: booking, parent: this});
-
+		this.$el.find(".no-content").remove();
 		this.$el.prepend(view.render().$el.addClass("highlight"));
 	},
 
