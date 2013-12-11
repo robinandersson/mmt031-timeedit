@@ -9,7 +9,8 @@
 
 body {
 	font: 14px/1.5 "Helvetica Neue", sans-serif;
-	margin: 2em 15%;
+	width: 960px;
+	margin: 2em auto;
 	color: #333;
 	-webkit-font-smoothing: antialiased;
 }
