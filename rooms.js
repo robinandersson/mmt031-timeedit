@@ -60,7 +60,7 @@ App.Models.Room = App.Models.BaseModel.extend({
  	initialize: function() {
  		this.bookings = new App.Collections.BookingCollection;
 
- 		this.bootstrap();
+ 		// this.bootstrap();
  	},
 
  	bootstrap: function() {

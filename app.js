@@ -40,22 +40,30 @@
 		/*
 			Add some default bookings to some rooms
 		*/
-		bootstrap: function(rooms) {
-			var room = rooms.models[0];
-			var date = Utils.generateNextDateSpan();
-			var data = _.extend(date, {room: room});
+		bootstrap: function(rooms, bookingsPerRoom) {
+			UserBookings.reset();
 
-			var m = room.bookings.create(data);
+			rooms.each(function(room, index) {
+				var max = Utils.randomFromInterval(1, bookingsPerRoom);
 
-			/*rooms.each(function(room, index) {
-				var data = {
-					room: room
-				},
-				date = Utils.generateNextDateSpan();
+				for(var i = 1; i <= max; i++) {
+					var data = Utils.createRandomBookingData(),
+							date1 = Utils.dateFromTime(data.date, data.startTime),
+							date2 = Utils.dateFromTime(data.date, data.endTime);
 
-				_.extend(data, date);
-				var m = room.bookings.create(data);
-			});*/
+					if(!room.isBookedDuringTimespan(date1, date2)) {
+
+						_.extend(data, {room: room});
+						
+						var m = room.bookings.create(data);
+
+						UserBookings.add(m);
+						m.save();
+
+						console.log(index + "." + i + ": Created ", m);
+					}
+				}
+			});
 		},
 
 		/*
