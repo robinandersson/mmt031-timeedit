@@ -54,29 +54,23 @@ var ScheduleView = Backbone.View.extend({
 
 	updateSegmentData: function(evt, segment) {
 		var start, width;
-		var el = $(this);
+		var el = (segment === undefined) ? this.$el.find(".time-segment") : segment.helper;
 		
 		if(segment === undefined) {
-			el = this.$el.find(".time-segment");
 			width = el.width();
 			start = parseInt(el.css("left"));
 		}
 		else {
-			if(segment.position !== undefined) 
-				start = segment.position.left;
-			else
-				start = parseInt(el.css("left"));
-			
-			if(segment.size !== undefined)
-				width = segment.size.width;
-			else 
-				width = el.width();
+			start = (segment.position !== undefined) ? segment.position.left : parseInt(el.css("left"));
+			width = (segment.size !== undefined) ? segment.size.width : el.width();
 		}
 
 		this.timeslotData = {
 			startTime: start,
 			endTime: start + width
-		}
+		};
+
+		this.trigger("segment:dragged", evt, this, el);
 	},
 
 	createSegment: function(timeslot) {
@@ -104,19 +98,16 @@ var ScheduleView = Backbone.View.extend({
 			containment: 'parent',
 			grid: [2, 2],
 			snapMode: 'inner',
-			snapTolerance: '7',
-			drag: view.updateSegmentData
+			snapTolerance: '7'
 		}).resizable({
 			containment: 'parent',
 			handles: 'e, w',
 			minWidth: '100%',
-			grid: [2, 2],
-			stop: view.updateSegmentData
+			grid: [2, 2]
 		});
 
-		var that = this;
-		$el.on("drag resize", function(evt, data){
-			that.trigger("segment:dragged", evt, data);
+		$el.on("drag stop resize", function(evt, data) {
+			view.updateSegmentData.call(view, evt, data);
 		});
 
 		return $el;

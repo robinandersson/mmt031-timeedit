@@ -59,11 +59,11 @@
 
 						UserBookings.add(m);
 						m.save();
-
-						console.log(index + "." + i + ": Created ", m);
 					}
 				}
 			});
+
+			console.log("* Bootstrapped bookings into "+rooms.length+" rooms");
 		},
 
 		/*

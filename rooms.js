@@ -120,6 +120,7 @@ var RoomView = Backbone.View.extend({
  		this.scheduleView = new ScheduleView({model: this.model.bookings});
 
  		this.listenTo(this.scheduleView, "segment:dragged", this.toggleBookingButton);
+ 		this.listenTo(this.scheduleView, "segment:dragged", this.updateTimeDisplay);
  	},
 
  	render: function() {
@@ -140,12 +141,22 @@ var RoomView = Backbone.View.extend({
  		view.setElement(this.$(selector)).render();
  	},
 
- 	toggleBookingButton: function(evt, element) {
- 		var isColliding = Utils.isColliding(element.helper, this.$el.find(".timebox"));
+ 	updateTimeDisplay: function(evt, scheduleView, element) {
+ 		var el = this.$el.find(".segment-timestamps");
+ 		var timeslot = {
+ 		  startTime: Utils.timeFromPixels(scheduleView.timeslotData.startTime, scheduleView.pixels_per_five_minutes),
+ 		  endTime: Utils.timeFromPixels(scheduleView.timeslotData.endTime, scheduleView.pixels_per_five_minutes)
+		};
+
+		el.find("time").html(timeslot.startTime+"-"+timeslot.endTime);
+ 	},
+
+ 	toggleBookingButton: function(evt, scheduleView, element) {
+ 		var isColliding = Utils.isColliding(element, this.$el.find(".timebox"));
 
  		if(isColliding !== this.isColliding) {
  			this.$el.find(".create-booking").attr("disabled", isColliding);
- 			element.helper[isColliding ? "addClass" : "removeClass"]("colliding");
+ 			element[isColliding ? "addClass" : "removeClass"]("colliding");
 
  			this.isColliding = isColliding;
  		}
