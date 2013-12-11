@@ -366,6 +366,7 @@ label[for] {
 
 #rooms > li.expanded .time-display .timebox {
 	background-color: #ED4245;
+	box-shadow: inset rgba(0,0,0, 0.3) 0 1px 3px, inset #B32528 0 0 10px;
 }
 
 #rooms > li.expanded .segment-timestamps {
@@ -415,17 +416,18 @@ label[for] {
 
 .time-segment {
 	transition: background-color, opacity .15s ease-out;
-	box-shadow: rgba(70,160,250, .8) 0 0 3px;
+	box-shadow: rgba(70,160,250, 1.0) 0 0 4px;
 	position: absolute;
 	visibility: hidden;
 	top: 0;
 	height: 100%;
-	background-color: rgb(70,160,250);
+	//background-color: rgb(70,160,250);
+	background-image: linear-gradient(rgba(70,160,250, .9), rgb(70,160,250));
 	opacity: .8;
 	z-index: 6000;
 	cursor: pointer;
 	border-radius: 3px;
-	-webkit-animation: pulse 2s infinite;
+	-webkit-animation: pulse 1.5s infinite;
 }
 
 .time-segment.colliding {
