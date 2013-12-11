@@ -279,7 +279,7 @@ input[type="time"] {
 	-webkit-appearance: none;
 	padding: 5px;
 	border: 1px solid #bbb;
-	font: 90%/1.5 sans-serif;
+	font: 1.1em/1.5 sans-serif;
 	box-shadow: inset rgba(0,0,0, 0.1) 0 1px 1px;
 }
 
@@ -301,6 +301,16 @@ input[type="time"]:focus {
 input[type=time]::-webkit-clear-button,
 input[type=date]::-webkit-clear-button {
 	display: none;
+}
+
+// Hack to make date and time spinners larger
+input[type=date]::-webkit-outer-spin-button,
+input[type=date]::-webkit-inner-spin-button,
+input[type=time]::-webkit-outer-spin-button,
+input[type=time]::-webkit-inner-spin-button {
+	width: 20px;
+	font-size: 3em;
+	height: 30px;
 }
 
 
