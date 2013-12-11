@@ -9,6 +9,7 @@ var TimeslotView = Backbone.View.extend({
 
 	initialize: function(args) {
 		this.parent = args.parent;
+		this.listenTo(this.model, "destroy", this.remove);
 	},
 
 	render: function() {
@@ -38,6 +39,14 @@ var ScheduleView = Backbone.View.extend({
 
 	initialize: function(args) {
 		this.bookings = args.model;
+
+		this.listenTo(this.bookings, "remove", this.removeSubView);
+		this.listenTo(UserBookings, "remove", this.removeSubView);
+	},
+
+	removeSubView: function(model, collection) {
+		var m = this.bookings.findWhere({id: model.get("id")});
+		if(m !== undefined) m.destroy();
 	},
 
 	/*
