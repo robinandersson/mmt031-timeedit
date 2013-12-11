@@ -65,8 +65,9 @@ h1 small,
 h2 small,
 h3 small,
 h4 small {
-	color: #888;
-	font-weight: 500;
+	color: #777;
+	font-weight: normal;
+	font-size: 80%;
 }
 
 #controls {
@@ -338,7 +339,7 @@ label[for] {
 
 #rooms > li.expanded .time-display {
 	height: 30px;
-	margin: 2em 0;
+	margin: 1em 0 2em;
 	border: 1px solid #ccc;
 	background-color: rgba(255,255,255, .5);
 	box-shadow: inset rgba(0,0,0, 0.1) 0 1px 2px;
@@ -360,6 +361,18 @@ label[for] {
 	height: 100%;
 	background-color: #FF7073;
 	z-index: 0;
+}
+
+.schedule-view .help {
+	float: left;
+	width: 70%;
+	margin-top: 4px;
+	font-size: .9em;
+	display: none;
+}
+
+#rooms > li.expanded .schedule-view .help {
+	display: block;
 }
 
 .schedule-view .segment-timestamps {
@@ -384,18 +397,22 @@ label[for] {
 
 .time-segment {
 	transition: background-color, opacity .15s ease-out;
+	box-shadow: rgba(70,160,250, .8) 0 0 3px;
 	position: absolute;
 	visibility: hidden;
 	top: 0;
 	height: 100%;
-	background-color: rgba(70,160,250, 0.8);
+	background-color: rgb(70,160,250);
+	opacity: .8;
 	z-index: 6000;
 	cursor: pointer;
 	border-radius: 3px;
+	-webkit-animation: pulse 2s infinite;
 }
 
 .time-segment.colliding {
-	opacity: .7;
+	opacity: .6;
+	-webkit-animation: none;
 }
 
 .time-segment:hover {
@@ -444,6 +461,18 @@ dl.list dd {
 
 	to {
 		background-color: transparent;
+	}
+}
+
+@-webkit-keyframes pulse {
+	from {
+		opacity: 1.0;
+	}
+	50% {
+		opacity: .8;
+	}
+	to {
+		opacity: 1.0;
 	}
 }
 
@@ -588,4 +617,22 @@ dl.list dd {
 
 .destroy {
 	color: red;
+}
+
+.clear {
+	clear: both;
+	display: block;
+	margin: -1px 0 0 0;
+}
+
+.help {
+	color: #777;
+}
+
+.negative {
+	color: #ED4245;
+}
+
+.positive {
+	color: rgb(70,160,250);
 }
