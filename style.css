@@ -487,12 +487,15 @@ dl.list dd {
 @-webkit-keyframes pulse {
 	from {
 		opacity: 1.0;
+		box-shadow: rgba(70,160,250, 1.0) 0 0 4px;
 	}
 	50% {
 		opacity: .8;
+		box-shadow: rgba(70,160,250, 0) 0 0 0;
 	}
 	to {
 		opacity: 1.0;
+		box-shadow: rgba(70,160,250, 1.0) 0 0 4px;
 	}
 }
 
