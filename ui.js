@@ -215,4 +215,7 @@ $(function() {
 		extra: ".booking-extra"
 	});
 
+	$.fn.tipsy.defaults.live = true;
+	$(".timebox").tipsy();
+
 });

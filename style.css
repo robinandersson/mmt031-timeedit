@@ -9,7 +9,8 @@
 
 body {
 	font: 14px/1.5 "Helvetica Neue", sans-serif;
-	margin: 2em 15%;
+	width: 960px;
+	margin: 2em auto;
 	color: #333;
 	-webkit-font-smoothing: antialiased;
 }
@@ -46,14 +47,20 @@ p {
 	margin: 0;
 }
 
+h1 {
+	margin-bottom: .5em;
+}
+
 h2 {
 	font-weight: normal;
 	color: #555;
 }
 
 h3 {
-	font-size: 1.7em;
-	margin: 0;
+	font-size: 1em;
+	font-weight: normal;
+	margin: 0 0 .5em;
+	color: #777;
 }
 
 h4 {
@@ -65,8 +72,9 @@ h1 small,
 h2 small,
 h3 small,
 h4 small {
-	color: #888;
-	font-weight: 500;
+	color: #777;
+	font-weight: normal;
+	font-size: 80%;
 }
 
 #controls {
@@ -104,6 +112,8 @@ h4 small {
 
 #rooms .room-name {
 	font-size: 1.4em;
+	font-weight: 500;
+	color: #333;
 }
 
 #rooms > li.expanded {
@@ -272,7 +282,7 @@ input[type="time"] {
 	-webkit-appearance: none;
 	padding: 5px;
 	border: 1px solid #bbb;
-	font: 90%/1.5 sans-serif;
+	font: 1.1em/1.5 sans-serif;
 	box-shadow: inset rgba(0,0,0, 0.1) 0 1px 1px;
 }
 
@@ -289,6 +299,21 @@ input[type="date"]:focus,
 input[type="search"]:focus,
 input[type="time"]:focus {
 	outline: none;
+}
+
+input[type=time]::-webkit-clear-button,
+input[type=date]::-webkit-clear-button {
+	display: none;
+}
+
+// Hack to make date and time spinners larger
+input[type=date]::-webkit-outer-spin-button,
+input[type=date]::-webkit-inner-spin-button,
+input[type=time]::-webkit-outer-spin-button,
+input[type=time]::-webkit-inner-spin-button {
+	width: 20px;
+	font-size: 3em;
+	height: 30px;
 }
 
 
@@ -333,7 +358,7 @@ label[for] {
 
 #rooms > li.expanded .time-display {
 	height: 30px;
-	margin: 2em 0;
+	margin: 1em 0 2em;
 	border: 1px solid #ccc;
 	background-color: rgba(255,255,255, .5);
 	box-shadow: inset rgba(0,0,0, 0.1) 0 1px 2px;
@@ -342,6 +367,7 @@ label[for] {
 
 #rooms > li.expanded .time-display .timebox {
 	background-color: #ED4245;
+	box-shadow: inset rgba(0,0,0, 0.3) 0 1px 3px, inset #B32528 0 0 10px;
 }
 
 #rooms > li.expanded .segment-timestamps {
@@ -355,6 +381,18 @@ label[for] {
 	height: 100%;
 	background-color: #FF7073;
 	z-index: 0;
+}
+
+.schedule-view .help {
+	float: left;
+	width: 70%;
+	margin-top: 4px;
+	font-size: .9em;
+	display: none;
+}
+
+#rooms > li.expanded .schedule-view .help {
+	display: block;
 }
 
 .schedule-view .segment-timestamps {
@@ -379,18 +417,23 @@ label[for] {
 
 .time-segment {
 	transition: background-color, opacity .15s ease-out;
+	box-shadow: rgba(70,160,250, 1.0) 0 0 4px;
 	position: absolute;
 	visibility: hidden;
 	top: 0;
 	height: 100%;
-	background-color: rgba(70,160,250, 0.8);
+	//background-color: rgb(70,160,250);
+	background-image: linear-gradient(rgba(70,160,250, .9), rgb(70,160,250));
+	opacity: .8;
 	z-index: 6000;
 	cursor: pointer;
 	border-radius: 3px;
+	-webkit-animation: pulse 1.5s infinite;
 }
 
 .time-segment.colliding {
-	opacity: .7;
+	opacity: .6;
+	-webkit-animation: none;
 }
 
 .time-segment:hover {
@@ -439,6 +482,21 @@ dl.list dd {
 
 	to {
 		background-color: transparent;
+	}
+}
+
+@-webkit-keyframes pulse {
+	from {
+		opacity: 1.0;
+		box-shadow: rgba(70,160,250, 1.0) 0 0 4px;
+	}
+	50% {
+		opacity: .8;
+		box-shadow: rgba(70,160,250, 0) 0 0 0;
+	}
+	to {
+		opacity: 1.0;
+		box-shadow: rgba(70,160,250, 1.0) 0 0 4px;
 	}
 }
 
@@ -583,4 +641,22 @@ dl.list dd {
 
 .destroy {
 	color: red;
+}
+
+.clear {
+	clear: both;
+	display: block;
+	margin: -1px 0 0 0;
+}
+
+.help {
+	color: #777;
+}
+
+.negative {
+	color: #ED4245;
+}
+
+.positive {
+	color: rgb(70,160,250);
 }

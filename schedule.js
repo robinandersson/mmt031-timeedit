@@ -6,10 +6,15 @@ var TimeslotView = Backbone.View.extend({
 
 	tagName: "div",
 	className: "timebox",
+	titleTemplate: "<%= startTime %>-<%= endTime%> — '<%= comment%>'",
 
 	initialize: function(args) {
 		this.parent = args.parent;
 		this.listenTo(this.model, "destroy", this.remove);
+
+		this.$el.tipsy({
+			gravity: "s"
+		});
 	},
 
 	render: function() {
@@ -28,6 +33,10 @@ var TimeslotView = Backbone.View.extend({
 			width: timespan_pixels + 'px',
 			left: ((start_split[0] * this.parent.pixels_per_five_minutes * 12) + (start_split[1] / 5 * this.parent.pixels_per_five_minutes)) +'px'
 		});
+
+		var title = _.template(this.titleTemplate);
+
+		this.$el.attr("title", title(this.model.toJSON()) );
 
 		return this;
 	}

@@ -8,6 +8,7 @@
 		<script src="lib/backbone-min.js"></script>
 		<script src="lib/backbone.localStorage-min.js"></script>
 		<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="lib/tipsy/src/javascripts/jquery.tipsy.js"></script>
 		<script src="app.js"></script>
 		<script src="support.js"></script>
 		<script src="bookings.js"></script>
@@ -18,6 +19,7 @@
 
 		<link rel="stylesheet" href="jquery-ui-1.10.3.custom.min.css" />
 		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="lib/tipsy/src/stylesheets/tipsy.css" />
 	</head>
 
 	<body>
@@ -27,6 +29,7 @@
 	
 		<div role="main">
 			<section id="controls">
+				<h3>Sök lediga rum enligt kriterier</h3>
 				<ul>
 					<li>
 						<label for="booking-location">Rum</label>
@@ -47,6 +50,7 @@
 			</section>
 			
 			<main>
+				<h2>Lediga grupprum <small>för valt datum och tidsintervall</small></h2>
 				<ul id="rooms" class="list"></ul>
 			</main>
 
@@ -112,7 +116,15 @@
 			</ul>
 
 			<div class="schedule-view">	
+				<p class="help">
+					<strong class="negative">Röda block</strong> är redan bokade tider.<br />
+					Det <strong class="positive">markerade blocket</strong> är det tidsspann du vill boka.
+				</p>
+
 				<p class="segment-timestamps"><time></time></p>
+
+				<br class="clear" />
+
 				<div class="time-display"></div>
 			</div>
 
