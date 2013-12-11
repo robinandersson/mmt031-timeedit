@@ -35,9 +35,14 @@ $.fn.incrementDates = function(other) {
 	}
 
 	function changeHours(date, value) {
-		var hours = date.getHours();
-		date.setHours(hours + value);
-		return date;
+		var hours = date.getHours(),
+				day = date.getDate(),
+				now = new Date(date.getTime());
+		
+		now.setHours(hours + value);
+		now.setDate(day);
+		
+		return now;
 	}
 
 	function incrementHourInterval(date) {
@@ -59,22 +64,26 @@ $.fn.incrementDates = function(other) {
 			var date1 = getDateFromTime($input.val()),
 					date2 = getDateFromTime($other.val());
 
-			//FIXME: known bug. If the start time is ex. 00:20 and end time is thus
-			// 01:20, and you *decrease* the hours in the start time to 23:20, the
-			// end time will incorrectly *increase* to 02:20. This is becase the date
-			// comparison below will give true, since the getDateFromTime() helper
-			// will set the same *day* on the timestamps. Thus is 00:20 *more* than 01:20.
+			if(isBefore) {
+				if(date1 >= date2) {
+					console.log("Is before, incrementing");
+					date2 = incrementHourInterval(date1);
+					$other.val(date2.hhmm(false));
+				}				
+			}
+			else {
+				if(date1 <= date2) {
+					console.log("Decrementing");
+					date2 = decrementHourInterval(date1);
 
-			if(date1 >= date2) {
-
-				if(isBefore) {
-					date2 = incrementHourInterval(date2);
+					// Do another check 
+					if(date1 <= date2) {
+						console.warn("You cannot filter on several days");
+					}
+					else {
+						$other.val(date2.hhmm(false));
+					}
 				}
-				else {
-					date2 = decrementHourInterval(date2);
-				}
-
-				$other.val(date2.hhmm(false));
 			}
 		});
 	});
