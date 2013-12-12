@@ -547,6 +547,16 @@ dl.list dd {
 	color: #ED1313;
 }
 
+.action-links .cancel {
+	border: 1px solid #bbb;
+	color: #777;
+}
+
+.action-links .cancel:hover {
+	background-color: #bbb;
+	color: #fff;
+}
+
 .action-links .destroy:hover {
 	background-color: #ED1313;
 	color: #fff;
