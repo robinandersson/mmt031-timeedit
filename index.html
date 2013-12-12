@@ -18,8 +18,11 @@
 		<script src="views.js"></script>
 		<script src="ui.js"></script>
 
+		<meta name="viewport" content="width=device-width" />
+
 		<link rel="stylesheet" href="jquery-ui-1.10.3.custom.min.css" />
 		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="mobile.css" media="screen and (max-width: 960px)" />
 		<link rel="stylesheet" href="lib/tipsy/src/stylesheets/tipsy.css" />
 	</head>
 
@@ -131,7 +134,7 @@
 
 			<div class="room-additional" hidden>
 				<div class="align-left">
-					<input type="text" size="22" class="booking-comment" placeholder="Kommentar (frivilligt)" autofocus />
+					<input type="text" size="22" class="booking-comment" placeholder="Kommentar (frivilligt)" />
 					<input type="text" size="22" class="booking-description" placeholder="Egen text (frivilligt)" />
 
 					<select class="booking-purpose" title="Ändamål">

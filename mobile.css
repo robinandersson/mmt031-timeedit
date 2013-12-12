@@ -1,0 +1,28 @@
+/*
+	MOBILE
+=========================
+*/
+
+body {
+	font-size: 16px;
+	margin: 0;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="search"],
+input[type="time"] {
+	font-size: 16px;
+}
+
+#rooms .room-name {
+	font-size: 2em;
+}
+
+#rooms > li {
+	font-size: 1.1em;
+}
+
+#user-bookings > li {
+	font-size: 1.2em;
+}
