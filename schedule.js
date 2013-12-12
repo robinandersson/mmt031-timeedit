@@ -51,12 +51,6 @@ var ScheduleView = Backbone.View.extend({
 
 		this.listenTo(this.bookings, "remove", this.removeSubView);
 		this.listenTo(UserBookings, "remove", this.removeSubView);
-
-		var $timeD = $('.time-display')
-		for (var i=1;i<24;i++) {
-			$timeD.append('<div class="line" style="left: ' 
-				+ i*12*this.pixels_per_five_minutes + 'px"></div>');
-		}
 	},
 
 	removeSubView: function(model, collection) {
@@ -150,6 +144,14 @@ var ScheduleView = Backbone.View.extend({
 	},
 
 	render: function() {
+
+		var $timeD = this.$el;
+		var _temp = "";
+		for (var i=1;i<24;i++) {
+			_temp = _temp + '<div class="line" style="left: ' 
+				+ i*12*this.pixels_per_five_minutes + 'px"></div>';
+		}
+		$timeD.append(_temp);
 
 		var bookings = this.bookings.models;
 		var todays_bookings = new Array();
