@@ -155,7 +155,18 @@ var ScheduleView = Backbone.View.extend({
 
 	render: function() {
 
-		var subviews = this.createTimeslotViews(this.bookings.models);
+		var bookings = this.bookings.models;
+		var todays_bookings = new Array();
+		var the_date = $("#booking-date").val();
+		_.each(bookings, function(booking) {
+			// console.log(booking);
+			if (booking.get("date") === the_date) {
+				console.log("matching date!", booking.get("date"), the_date);
+				todays_bookings.push(booking);
+			}
+		});
+
+		var subviews = this.createTimeslotViews(todays_bookings);
 
 		_.each(subviews, function(subview) {
 			this.$el.append(subview.render().el);
