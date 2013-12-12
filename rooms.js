@@ -5,7 +5,7 @@
 
 App.Collections.RoomCollection = BaseCollection.extend({
 	// Here, the local seed file
-	url: "/mmt031-timeedit/rooms.json",
+	url: "mmt031-timeedit/rooms.json",
 	model: App.Models.Room,
 	localStorage: new Backbone.LocalStorage("Rooms"),
 	comparator: "name",
