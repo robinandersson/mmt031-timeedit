@@ -100,6 +100,12 @@ var ScheduleView = Backbone.View.extend({
 			};
 		}
 
+		// Ugly hack
+		if(timeslot.startTime === timeslot.endTime && timeslot.startTime !== "" && timeslot.endTime !== "") {
+			var hour = parseInt(timeslot.endTime.substr(0, 2));
+			timeslot.endTime = (hour + 1) + ":" + timeslot.endTime.substr(3, 2);
+		}
+
 		var view = this;
 		var $el = $('<div class="time-segment" />');
 		var time_end = timeslot.endTime.split(":");
