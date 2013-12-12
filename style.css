@@ -130,8 +130,9 @@ h4 small {
 	border-bottom-color: #d2d2d2;
 }
 
-#rooms .room-expand {
+#rooms > li:not(.expanded):hover {
 	cursor: pointer;
+	background-color: #f7f7f7;
 }
 
 #rooms .room-details {

@@ -131,12 +131,14 @@ $.fn.listSearch = function(options) {
 $.fn.toggleExtra = function(options, extra) {
 	var defaults = {
 		trigger: ".expand",
+		closeTrigger: ".expand",
 		extra: ".extra",
 		expandedClass: "expanded",
 		duration: 100,
 		child: true,
+		slideParent: false,
 		start: function(el) {
-			el.parents("li").toggleClass(settings.expandedClass);
+			el.toggleClass(settings.expandedClass);
 		}
 	},
 
@@ -159,6 +161,14 @@ $.fn.toggleExtra = function(options, extra) {
 			});
 		},
 
+		close: function(el, expandElement) {
+
+			el[method](expandElement).slideUp({
+				duration: settings.duration + 300,
+				start: settings.start(el)
+			});
+		},
+
 		toggle: function(el) {
 			el[method](settings.extra).slideToggle({
 				duration: settings.duration,
@@ -174,10 +184,40 @@ $.fn.toggleExtra = function(options, extra) {
 			methods.expand($this, extra);
 		}
 		else {
-			$this.delegate(settings.trigger, "click", function(evt){
-				evt.preventDefault();
-				methods.toggle($(this));
-			});
+
+			if(!$(settings.trigger).is(settings.closeTrigger)) {
+				$this.delegate(settings.trigger, "click", function(evt){
+					evt.preventDefault();
+					
+					var exp = ($(this).is("li")) ? $(this) : $(this).parents("li");
+					if($(this).hasClass(settings.expandedClass)) return;
+
+					methods.expand(exp, settings.extra);
+				});
+
+				$this.delegate(settings.closeTrigger, "click", function(evt){
+					evt.preventDefault();
+					
+					var exp = ($(this).is("li")) ? $(this) : $(this).parents("li");
+					if(!exp.hasClass(settings.expandedClass)) {
+						return;
+					}
+					else {
+						evt.stopPropagation();
+					}
+
+					methods.close(exp, settings.extra);
+				});
+			}
+			else {
+
+				$this.delegate(settings.trigger, "click", function(evt){
+					evt.preventDefault();
+					var exp = ($(this).is("li")) ? $(this) : $(this).parents("li");
+					methods.toggle(exp);
+				});
+
+			}
 		}
 	});
 };
@@ -205,13 +245,16 @@ $(function() {
 	$("#booking-start-time").incrementDates("#booking-end-time");
 	
 	$("#rooms").toggleExtra({
-		trigger: ".room-expand",
+		trigger: "li",
+		closeTrigger: ".room-expand",
 		extra: ".room-additional",
-		child: false
+		child: true,
+		slideParent: true
 	});
 
 	$("#user-bookings").toggleExtra({
 		trigger: "li:not(.no-expand)",
+		closeTrigger: "li:not(.no-expand)",
 		extra: ".booking-extra"
 	});
 
