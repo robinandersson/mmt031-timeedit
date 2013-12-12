@@ -75,8 +75,8 @@ Utils = {
 
 	generateNextDateSpan: function(next) {
 		if(next === undefined) next = 1;
-		var now = new Date(),
-				nextHour = parseInt(now.hhmm().substr(0, 2)) + next;
+		var now = new Date();
+		var nextHour = parseInt(now.hhmm().substr(0, 2)) + next;
 
 		if(nextHour == 24) {
 			nextHour = "00";
@@ -95,6 +95,10 @@ Utils = {
 			if(nextHour === 24) {
 				nextHour = "00";
 			}
+		}
+
+		if(parseInt(nextEndTime) < 10) {
+			nextEndTime = "0"+nextEndTime;
 		}
 
 		return {
