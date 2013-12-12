@@ -125,18 +125,12 @@ var ScheduleView = Backbone.View.extend({
 			containment: 'parent',
 			grid: [2, 2],
 			snap: ".timebox",
-			snapTolerance: 5,
-			drag: function(event, ui) {
-				x2 = ui.position.left;
-				ui.position.left = Math.floor(x2);
-
-			// 	// var $t = $(this);
-			// 	// var left = $t.css("left").split("px").join("");
-			// 	// var grid = $t.draggable("option", "grid");
-			// 	// var rounded = Math.round(left);
-			// 	// console.log(rounded);
-			// 	// $t.css("left", (rounded % grid[0] > 0 ? rounded - (rounded % grid[0]) : rounded ) + "px");
-			}
+			snapTolerance: 5
+			//,
+			// drag: function(event, ui) {
+			// 	x2 = ui.position.left;
+			// 	ui.position.left = Math.floor(x2);
+			// }
 		}).resizable({
 			containment: 'parent',
 			handles: 'e, w',
@@ -147,6 +141,8 @@ var ScheduleView = Backbone.View.extend({
 
 
 		$el.on("drag stop resize", function(evt, data) {
+			// console.log(data);̈́
+			data.position.left = Math.floor(data.position.left);
 			view.updateSegmentData.call(view, evt, data);
 		});
 
@@ -159,9 +155,7 @@ var ScheduleView = Backbone.View.extend({
 		var todays_bookings = new Array();
 		var the_date = $("#booking-date").val();
 		_.each(bookings, function(booking) {
-			// console.log(booking);
 			if (booking.get("date") === the_date) {
-				console.log("matching date!", booking.get("date"), the_date);
 				todays_bookings.push(booking);
 			}
 		});

@@ -183,6 +183,8 @@ var RoomView = Backbone.View.extend({
  			endTime: Utils.timeFromPixels(this.scheduleView.timeslotData.endTime, this.scheduleView.pixels_per_five_minutes)
  		});
 
+ 		console.log(this.scheduleView.timeslotData);
+
  		if(booking.isValid()) {
  			this.model.bookings.create(booking);
  			UserBookings.create(booking.clone());
