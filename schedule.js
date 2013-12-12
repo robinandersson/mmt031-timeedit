@@ -124,6 +124,8 @@ var ScheduleView = Backbone.View.extend({
 			axis: 'x',
 			containment: 'parent',
 			grid: [2, 2],
+			snap: ".timebox",
+			snapTolerance: 5,
 			drag: function(event, ui) {
 				x2 = ui.position.left;
 				ui.position.left = Math.floor(x2);
