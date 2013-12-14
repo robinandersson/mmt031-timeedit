@@ -1,166 +1,295 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 	<head>
-		<meta charset="utf-8" />
-		<title>TimeEdit</title>
-		<script src="lib/jquery-min.js"></script>
-		<script src="lib/underscore-min.js"></script>
-		<script src="lib/backbone-min.js"></script>
-		<script src="lib/backbone.localStorage-min.js"></script>
-		<script src="lib/jquery-ui-1.10.3.custom.min.js"></script>
-		<script src="lib/tipsy/src/javascripts/jquery.tipsy.js"></script>
-		<script src="lib/jquery.ui.touch-punch.min.js"></script>
-		<script src="app.js"></script>
-		<script src="support.js"></script>
-		<script src="bookings.js"></script>
-		<script src="schedule.js"></script>
-		<script src="rooms.js"></script>
-		<script src="views.js"></script>
-		<script src="ui.js"></script>
+		<meta charset="utf-8">
 
-		<meta name="viewport" content="width=device-width" />
+		<title>reveal.js - The HTML Presentation Framework</title>
 
-		<link rel="stylesheet" href="jquery-ui-1.10.3.custom.min.css" />
-		<link rel="stylesheet" href="style.css" />
-		<link rel="stylesheet" href="mobile.css" media="screen and (max-width: 960px)" />
-		<link rel="stylesheet" href="lib/tipsy/src/stylesheets/tipsy.css" />
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
 	</head>
 
 	<body>
-		<header role="banner">
-			<h1>TimeEdit</h1>
-		</header>	
-	
-		<div role="main">
-			<section id="controls">
-				<h3>Sök lediga rum enligt kriterier</h3>
-				<ul>
-					<li>
-						<label for="booking-location">Rum</label>
-						<input id="booking-location" type="search" size="30" placeholder="Ex. 3213" />
-					</li>
-					<li>
-						<input id="booking-date" type="date" />
-					</li>
-					<li>
-						<label for="booking-start-time" class="descriptive-help">Från</label>
-						<input id="booking-start-time" data-time="start" step="300" type="time" />
-					</li>
-					<li>
-						<label for="booking-end-time" class="descriptive-help">Till</label>
-						<input id="booking-end-time" data-time="end" step="300" type="time" />
-					</li>
-				</ul>
-			</section>
-			
-			<main>
-				<h2>Lediga grupprum <small>för valt datum och tidsintervall</small></h2>
-				<ul id="rooms" class="list"></ul>
-			</main>
 
-			<aside role="complementary">
-				<section>
-					<h2>Dina bokningar</h2>
-					<ul id="user-bookings" class="list">
-						<p class="no-content">Inga bokningar</p>
-					</ul>
-				</section>
-			</aside>
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+			    <section>
+			        <h1>
+			<span style="font-size: 54px;">En redesign av</span>
+			        <br>
+			</h1>
+			<h1>TimeEdit</h1>
+			<div>
+			        <font color="#d9d9d9">eller</font>
+			    </div>
+			<h1>
+			<font style="font-size: 72px;">Konsten Att<br>
+			</font>
+			<span style="font-size: 72px;">Sminka en Gris</span>
+			</h1>
+			        </section>
+			<section>
+			    <section>
+					<h2>
+			  	  <span style="font-size: 64.566px;">Funktionalitet</span>
+			    </h2>
+			    </section>
+			    <section>
+			        <h2>The TimeEdit we love</h2>
+			<img src="https://s3.amazonaws.com/media-p.slid.es/uploads/johanbrook/images/191151/Sk_rmavbild_2013-12-13_kl._08.22.17.png">
+			    </section>
+			</section>
+			<section>
+			    <section>
+						<h2>
+							<span style="font-size: 64.566px;">Problem</span>
+					</h2>
+			</section>
+			    <section>
+			        <h2>
+			            <br>
+			        </h2>
+			<h2>Problem</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>
+			    <ul>
+			<li>Ej intuitivt</li>
+			<li>Vissa uppgifter oerhört omständiga</li>
+			<li>Många klick för att utföra uppgifter</li>
+			<li>Restriktivt gränssnitt</li>
+			</ul>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+						<h2>
+							<span style="font-size: 64.566px;">Användartest 1</span>
+						</h2>
+					</section>
+			   
+			<section>
+			        <h2>Tid i sekunder</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>
+			<span id="docs-internal-guid-77c3c641-eae3-7bb8-e8f4-8f581c3816d8">
+			    <img src="https://lh6.googleusercontent.com/tnV80oYTPHL5npoegIZ_hOX1m78ylS3WoxVLHtQAMAZ98Bq11g7X7JYtYcsajDgOWPT0xmZm0XyHMhGU5gfndJhnZMiCuF-J1hkVcXnFR99D7O0Z1qSSFpiTMQ" width="460px;" height="284px;" style="width: 795.7447868823401px; height: 480.4696752880457px; max-height: none; max-width: none;">
+			</span>
+			<br>
+			</div>
+			</section>
+			<section>
+			    <h2>
+			<span style="font-size: 64.566px;">Antal musklick</span>
+			</h2>
+			<div>
+			<span id="docs-internal-guid-77c3c641-eae4-6392-4605-c72f7d586f16">
+			    <img src="https://lh3.googleusercontent.com/8qVnKCGOpJ4aFgY4_k2xSHOgetxtaet70vnD_dypJWhWWSjBf7c39clZgN6gSJj-6yU_ZJFJk5c-QEocQNFlJQXZCpd5xDmOpV2PH7FVyFmnHtbJlWTGnVddAg" width="469px;" height="290px;" style="width: 893.3016694568973px; height: 537.2609305771854px; max-height: none; max-width: none;">
+			</span>
+			<br>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+			<h2>Redesign</h2>
+			</section>
+			        <section>
+			            <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/johanbrook/images/191355/Sk_rmavbild_2013-12-13_kl._08.49.08.png" style="width: 970.6680767925121px; height: 679.2553399383534px; max-height: none; max-width: none; position: absolute; z-index: 4; left: -19px; top: 30px;" class="absolute-element">
+			            <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/johanbrook/images/191356/Sk_rmavbild_2013-12-13_kl._08.49.08_kopia.png" class="absolute-element fragment" style="position: absolute; max-height: none; max-width: none; width: 974.1607895334618px; height: 681.801325335865px; z-index: 6; left: -19px; top: 28px;" data-fragment-index="0">
+			            <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/johanbrook/images/191357/Sk_rmavbild_2013-12-13_kl._08.49.08_F.png" class="absolute-element fragment" style="position: absolute; max-height: none; max-width: none; width: 972.1029813400193px; height: 678.5260927774674px; z-index: 7; left: -21px; top: 30px;" data-fragment-index="1">
+			        </section>
+			    </section>
+			    <section>
+			<h2>
+			<span style="font-size: 64.566px;">
+			<i>Demo</i>
+			</span>
+			</h2>
+			</section>
+			<section>
+			    <section>
+			<h2>Användartest 2</h2>
+			</section>
+			        <section>
+			            <h2 style="font-style: normal; font-variant: normal;">Tid i sekunder</h2>
+			<div>
+			<span id="docs-internal-guid-77c3c641-eb4d-5b93-15b7-9c6d7be2aca7">
+			            <img src="https://lh5.googleusercontent.com/Vwi25ZTdujj_izFXSmzAZiu5Inb_gzhNRJgIEdH2_30z3lBt63lWcrcbtP_oKjElxouuEL4QMpWgVKO4JLvYcDtCi7Dfcpa2MV88wZKzuCAMHK8ASScMx2ct_g" width="596px;" height="368px;" style="width: 855.0545635354423px; height: 523.1480955983419px; max-height: none; max-width: none;">
+			        </span>
+			        <br>
+			</div>
+			    </section>
+			    <section>
+			        <h2>Antal musklick</h2>
+			<div>
+			<span id="docs-internal-guid-77c3c641-eb4e-c9ff-5059-49cc0578b8f5">
+			        <img src="https://lh5.googleusercontent.com/xmJDeI9RUHF2HVpDPJyWZKPIctFpVwS0x7pwLt-w63eh7PiOqnYSHbtIorM3VFU3KPphTHHpwNrN67XXMMq-0Ddk7v3gDnY8ycfHwjdeQRqTKutUewwqmxXpNA" width="598px;" height="369px;" style="width: 865.816653871631px; height: 531.200281776057px; max-height: none; max-width: none;">
+			    </span>
+			    <br>
+			</div>
+			</section>
+			<section>
+			    <h2>Jämförelse, Test 1 &amp; 2</h2>
+			<img src="https://s3.amazonaws.com/media-p.slid.es/uploads/johanbrook/images/191359/tid_oerfarna_medel.png" style="width: 796.6272041704444px; height: 492.3610716209089px; max-height: none; max-width: none;">
+			</section>
+			<section>
+			    <h2>
+			        <span style="font-size: 64.46991729736328px; font-style: normal; font-variant: normal;">Jämförelse, Test 1 &amp; 2</span>
+			    </h2>
+			<img src="https://s3.amazonaws.com/media-p.slid.es/uploads/johanbrook/images/191360/klick_oerfarna_medel.png" style="width: 886.0075028466239px; height: 547.6031966796771px; max-height: none; max-width: none;">
+			</section>
+			<section>
+			    <h2>Förbättring?</h2>
+			<div>
+			    <br>
+			</div>
+			<div>
+			    <br>
+			</div>
+			<div>
+			    <br>
+			</div>
+			<div>
+			    <br>
+			</div>
+			<div class="fragment" data-fragment-index="0">
+			    <font style="font-size: 142px;" color="#f1c232">
+			        <b>Ja!</b>
+			    </font>
+			</div>
+			<div class="fragment" data-fragment-index="0">
+			    <br>
+			</div>
+			<div class="fragment" data-fragment-index="0">
+			<font color="#f1c232" style="font-size: 32px;">
+			    <b>(typ)</b>
+			</font>
+			</div>
+			</section>
+			</section>
+			<section>
+			    <section>
+			<h2>Sammanfattning</h2>
+			</section>
+			        <section>
+			            <h2>
+			                <br>
+			            </h2>
+			<h2>
+			            <br>
+			        </h2>
+			<h2>Förenkla!</h2>
+			<div>
+			        <br>
+			    </div>
+			<div>
+			    <ul>
+			<li>Färre steg – utan att hoppa över något</li>
+			<li>Färre kontroller – men tillräckligt många</li>
+			<li>Tydlig feedback – utan att bli för mycket</li>
+			<li>Fler och bättre beskrivningar</li>
+			</ul>
+			</div>
+			</section>
+			<section>
+			    <h2>
+			        <br>
+			    </h2>
+			<h2>
+			    <br>
+			</h2>
+			<h2>Komplext<br>
+			<font style="font-size: 42px;">
+			    <i>men inte komplicerat</i>
+			</font>
+			</h2>
+			<div>
+			<br>
+			</div>
+			<div>
+			<ul style="font-size: 36.43629455566406px; font-style: normal; font-variant: normal;">
+			<li>"Smart defaults" – men inte för smart</li>
+			<li>Filtrering av stora mängder data i realtid kan förvirra</li>
+			</ul>
+			<div style="text-align: left;">
+			<br>
+			</div>
+			</div>
+			<div style="text-align: center;">
+			<br>
+			</div>
+			</section>
+			</section>
+			<section>
+			<h1>
+			<font color="#f1c232" style="font-size: 72px;">Tack!</font>
+			</h1>
+			</section>
+			</div>
+
+
 		</div>
 
-		<script type="text/html" id="booking-template">
-			<h4><%= room.name %> <small>(<%= room.building %>)</small></h4>
-			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
-
-			<div class="booking-extra" hidden>
-				<dl class="list">
-					<dt>Kommentar</dt>
-					<dd><%= comment%></dd>
-					<dt>Egen text</dt>
-					<dd><%= description%></dd>
-					<dt>Ändamål</dt>
-					<dd><%= purpose%></dd>
-				</dl>
-				<p hidden class="center detail confirmation-text">Vill du verkligen ta bort bokningen?</p>
-				<p class="action-links">
-					<span class="edit">Ändra</span><span class="destroy">Avboka</span>
-				</p>
-			</div>
-		</script>
-
-		<script type="text/html" id="booking-edit-template">
-			<h4><%= room.name %> <small>(<%= room.building %>)</small></h4>
-			<p><strong>Tid:</strong> <time><%= date + ", "+startTime+"-"+endTime %></time></p>
-
-			<div class="booking-extra">
-				<dl class="list">
-					<dt><label>Kommentar</label></dt>
-					<dd><input type="text" class="booking-comment" value="<%= comment%>" placeholder="Kommentar (frivilligt)" autofocus /></dd>
-					<dt><label>Egen text</label></dt>
-					<dd><input type="text" class="booking-description" value="<%= description%>" placeholder="Egen text (frivilligt)" /></dd>
-				</dl>
-
-				<p class="action-links">
-					<span class="cancel">Avbryt</span>
-					<span class="update">Klar</span>
-				</p>
-			</div>
-		</script>
-
-		<script type="text/html" id="booking-destroy-confirmation">
-			<span class="destroy-cancel">Nej</span><span class="destroy-ok">Ja, avboka</span>
-		</script>
-
-		<script type="text/html" id="room-template">
-			<h3 class="room-name room-expand"><span><%= name%></span></h3>
-			
-			<ul class="horizontal-list room-details">
-				<li title="Byggnad"><%= building %></li>
-				<li title="Typ av rum/utrustning"><%= type %></li>
-			</ul>
-
-			<div class="schedule-view">	
-				<p class="help">
-					<strong class="negative">Röda block</strong> är redan bokade tider.<br />
-					Det <strong class="positive">markerade blocket</strong> är det tidsspann du vill boka.
-				</p>
-
-				<p class="segment-timestamps"><time></time></p>
-
-				<br class="clear" />
-
-				<div class="time-display"></div>
-			</div>
-
-			<div class="room-additional" hidden>
-				<div class="align-left">
-					<input type="text" size="22" class="booking-comment" placeholder="Kommentar (frivilligt)" />
-					<input type="text" size="22" class="booking-description" placeholder="Egen text (frivilligt)" />
-
-					<select class="booking-purpose" title="Ändamål">
-						<optgroup label="Ändamål">
-							<option value="misc">Övrigt</option>
-						</optgroup>
-					</select>
-				</div>
-
-				<p class="align-right">
-					<button class="create-booking accent">Boka</button>
-				</p>
-			</div>
-		</script>
-
-		<script type="text/html" id="empty-list-template">
-			<p class="no-content">Inga <%= noun %> funna</p>
-		</script>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
 
 		<script>
-			$(function() {
-				App.start();
-				updateInputs("now");
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
 			});
+
 		</script>
 
-		<!-- Av Johan, Robin, Anno och Rolén -->
 	</body>
 </html>
